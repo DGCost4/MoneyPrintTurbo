@@ -88,7 +88,7 @@ Responda EXATAMENTE neste formato, com as marcações:
 <ROTEIRO>texto completo da narração</ROTEIRO>
 <DESCRICAO>descrição do vídeo em 3 a 6 linhas, incluindo as referências bíblicas usadas</DESCRICAO>
 <TAGS>8 a 12 palavras-chave separadas por vírgula</TAGS>
-<TERMOS>8 a 12 termos de busca EM INGLÊS para vídeos de banco de imagens (Pexels) que
+<TERMOS>8 a 12 termos de busca EM INGLÊS para vídeos de banco de imagens (Pixabay) que
 combinem com o roteiro, visuais e respeitosos, sem pessoas famosas, separados por vírgula.
 Exemplos: sunrise over mountains, ancient desert, candle light, open bible, wheat field,
 stormy sea, shepherd with sheep, light through clouds</TERMOS>
@@ -156,7 +156,7 @@ def montar_video(formato: str, tema: str, conteudo: dict) -> str:
         "--video-script", conteudo["roteiro"],
         "--video-terms", ",".join(conteudo["termos"]),
         "--video-language", "pt-BR",
-        "--video-source", "pexels",
+        "--video-source", "pixabay",
         "--video-aspect", cfg["aspecto"],
         "--video-clip-duration", cfg["duracao_clipe"],
         "--video-transition-mode", "fade-in",

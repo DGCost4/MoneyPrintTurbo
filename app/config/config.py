@@ -513,6 +513,10 @@ def save_config():
 
 
 _cfg = load_config()
+# Pixabay 只接受查询参数形式的 API Key，无法由网关注入请求头；
+# 允许通过环境变量 PIXABAY_API_KEY 提供，避免把密钥写入 config.toml。
+if os.environ.get("PIXABAY_API_KEY"):
+    _cfg.setdefault("app", {})["pixabay_api_keys"] = [os.environ["PIXABAY_API_KEY"]]
 app = _SynchronizedConfig(_cfg.get("app", {}))
 whisper = _cfg.get("whisper", {})
 proxy = _cfg.get("proxy", {})
