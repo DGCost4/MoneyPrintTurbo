@@ -172,7 +172,7 @@ def montar_video(formato: str, tema: str, conteudo: dict) -> str:
         "--video-script", conteudo["roteiro"],
         "--video-terms", ",".join(conteudo["termos"]),
         "--video-language", "pt-BR",
-        "--video-source", "pixabay",
+        "--video-source", "coverr",
         "--video-aspect", cfg["aspecto"],
         "--video-clip-duration", cfg["duracao_clipe"],
         "--video-transition-mode", "fade-in",
