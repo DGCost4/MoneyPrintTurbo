@@ -102,6 +102,9 @@ _TRANSITION_MODE_VALUES = {
     "fade-out": "FadeOut",
     "slide-in": "SlideIn",
     "slide-out": "SlideOut",
+    "zoom-in": "ZoomIn",
+    "zoom-out": "ZoomOut",
+    "ken-burns": "KenBurns",
 }
 
 
@@ -255,7 +258,7 @@ Output and exit status:
         "--video-transition-mode",
         type=_transition_mode,
         default=None,
-        metavar="{none,shuffle,fade-in,fade-out,slide-in,slide-out}",
+        metavar="{none,shuffle,fade-in,fade-out,slide-in,slide-out,zoom-in,zoom-out,ken-burns}",
         help="transition applied between source clips (default: none)",
     )
     video_group.add_argument(

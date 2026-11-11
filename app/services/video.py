@@ -650,6 +650,15 @@ def combine_videos(
                 
                 if clip_ratio == video_ratio:
                     clip = clip.resized(new_size=(video_width, video_height))
+                elif transition_value == VideoTransitionMode.ken_burns.value:
+                    # Preenche a tela inteira (corta as bordas) em vez de usar faixas pretas.
+                    cover = max(video_width / clip_w, video_height / clip_h)
+                    clip = clip.resized(
+                        new_size=(max(video_width, round(clip_w * cover)), max(video_height, round(clip_h * cover)))
+                    )
+                    clip = clip.cropped(
+                        x_center=clip.w / 2, y_center=clip.h / 2, width=video_width, height=video_height
+                    )
                 else:
                     if clip_ratio > video_ratio:
                         scale_factor = video_width / clip_w
@@ -678,6 +687,11 @@ def combine_videos(
                 clip = video_effects.zoomin_transition(clip, 1)
             elif transition_value == VideoTransitionMode.zoom_out.value:
                 clip = video_effects.zoomout_transition(clip, 1)
+            elif transition_value == VideoTransitionMode.ken_burns.value:
+                if i % 2 == 0:
+                    clip = video_effects.zoomin_transition(clip, 1)
+                else:
+                    clip = video_effects.zoomout_transition(clip, 1)
             elif transition_value == VideoTransitionMode.shuffle.value:
                 transition_funcs = [
                     lambda c: video_effects.fadein_transition(c, 1),

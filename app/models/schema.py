@@ -29,6 +29,8 @@ class VideoTransitionMode(str, Enum):
     slide_out = "SlideOut"
     zoom_in = "ZoomIn"
     zoom_out = "ZoomOut"
+    # Zoom lento alternado (aproxima/afasta) e preenchimento da tela sem faixas pretas.
+    ken_burns = "KenBurns"
 
 
 class VideoAspect(str, Enum):

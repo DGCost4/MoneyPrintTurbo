@@ -6,6 +6,7 @@ Uso (a partir da raiz do projeto):
     .venv/bin/python automacao/canal.py --formato short
     .venv/bin/python automacao/canal.py --formato longo
     .venv/bin/python automacao/canal.py --formato short --tema "Tema avulso"
+    .venv/bin/python automacao/canal.py --formato short --estilo motion   # texto animado
 
     # 2) Depois que o vídeo foi assistido e aprovado, publica o último pendente:
     .venv/bin/python automacao/canal.py --publicar
@@ -60,7 +61,7 @@ FORMATOS = {
             "(entre 110 e 140 palavras). Comece com uma frase de impacto que prenda a "
             "atenção nos 3 primeiros segundos. Tom acolhedor, esperançoso e pessoal, "
             "falando diretamente com quem assiste (\"você\"). Termine com uma frase curta "
-            "de encorajamento ou uma breve oração, e um convite simples para seguir o canal."
+            "de encorajamento ou uma breve oração e, por último, apenas: \"Curta e se inscreva para mais vídeos.\""
         ),
     },
     "longo": {
@@ -76,8 +77,8 @@ FORMATOS = {
             "Estrutura: (1) gancho inicial forte nos primeiros 15 segundos; (2) contexto "
             "histórico e quem são os personagens; (3) a história contada de forma "
             "envolvente e cronológica, como um narrador de documentário; (4) o que essa "
-            "história ensina para a vida hoje; (5) encerramento com uma breve oração e um "
-            "convite para se inscrever e comentar. Seja fiel ao texto bíblico: não invente "
+            "história ensina para a vida hoje; (5) encerramento com uma breve oração e, por "
+            "último, apenas: \"Curta e se inscreva para mais vídeos.\" Seja fiel ao texto bíblico: não invente "
             "fatos, nomes ou diálogos que não estão na Bíblia."
         ),
     },
@@ -97,10 +98,13 @@ Responda EXATAMENTE neste formato, com as marcações:
 <ROTEIRO>texto completo da narração</ROTEIRO>
 <DESCRICAO>descrição do vídeo em 3 a 6 linhas, incluindo as referências bíblicas usadas</DESCRICAO>
 <TAGS>8 a 12 palavras-chave separadas por vírgula</TAGS>
-<TERMOS>8 a 12 termos de busca EM INGLÊS para vídeos de banco de imagens (Pixabay) que
-combinem com o roteiro, visuais e respeitosos, sem pessoas famosas, separados por vírgula.
-Exemplos: sunrise over mountains, ancient desert, candle light, open bible, wheat field,
-stormy sea, shepherd with sheep, light through clouds</TERMOS>
+<TERMOS>8 a 12 termos de busca EM INGLÊS para vídeos de banco de imagens, separados por vírgula.
+SOMENTE PAISAGENS NATURAIS do mundo que combinem com o clima do roteiro: montanhas, mares,
+desertos, florestas, cachoeiras, lagos, céus, nuvens, nasceres e pores do sol, auroras.
+PROIBIDO: pessoas, animais, objetos, comida, construções, cidades, interiores, festas.
+Prefira termos com "aerial", "landscape" ou "nature".
+Exemplos: aerial mountain sunrise, misty forest landscape, ocean waves aerial, desert dunes
+aerial, waterfall nature, lake reflection mountains, clouds timelapse sky, aurora borealis</TERMOS>
 """
 
 
@@ -137,7 +141,7 @@ def _campo(texto: str, nome: str) -> str:
 def gerar_conteudo(formato: str, tema: str) -> dict:
     prompt = (
         f"Você é roteirista do canal cristão brasileiro \"{NOME_CANAL}\" no YouTube. "
-        f"Ao convidar para se inscrever, cite o nome do canal.\n\n"
+        f"NÃO diga o nome do canal na narração.\n\n"
         f"Tema: {tema}\n\n{FORMATOS[formato]['instrucoes']}\n{REGRAS_GERAIS}"
     )
     tentativas = len(MODELOS_GEMINI) * 2
@@ -168,8 +172,9 @@ def gerar_conteudo(formato: str, tema: str) -> dict:
     raise RuntimeError(f"A IA não retornou um roteiro válido após {tentativas} tentativas.")
 
 
-def montar_video(formato: str, tema: str, conteudo: dict) -> str:
+def montar_video(formato: str, tema: str, conteudo: dict, estilo: str = "classico") -> str:
     cfg = FORMATOS[formato]
+    motion_design = estilo == "motion"
     cmd = [
         sys.executable, "cli.py",
         "--video-subject", tema,
@@ -179,7 +184,7 @@ def montar_video(formato: str, tema: str, conteudo: dict) -> str:
         "--video-source", "coverr",
         "--video-aspect", cfg["aspecto"],
         "--video-clip-duration", cfg["duracao_clipe"],
-        "--video-transition-mode", "fade-in",
+        "--video-transition-mode", "ken-burns" if motion_design else "fade-in",
         "--voice-name", VOZ,
         "--voice-rate", cfg["velocidade_voz"],
         "--bgm-type", "random",
@@ -188,6 +193,9 @@ def montar_video(formato: str, tema: str, conteudo: dict) -> str:
         "--font-size", cfg["tamanho_fonte"],
         "--subtitle-position", cfg["posicao_legenda"],
     ]
+    if motion_design:
+        # A legenda comum é trocada pelo texto animado desenhado depois (automacao/motion.py).
+        cmd.append("--no-subtitle-enabled")
     logger.info(f"Montando vídeo '{formato}' sobre: {tema}")
     proc = subprocess.run(cmd, cwd=RAIZ, capture_output=True, text=True)
     if proc.returncode != 0:
@@ -196,7 +204,29 @@ def montar_video(formato: str, tema: str, conteudo: dict) -> str:
         raise RuntimeError(f"Falha ao montar o vídeo (código {proc.returncode}).")
     ultima_linha = [l for l in proc.stdout.splitlines() if l.strip()][-1]
     resultado = json.loads(ultima_linha)["result"]
-    return resultado["videos"][0]
+    video = resultado["videos"][0]
+    if motion_design:
+        video = aplicar_motion(video, conteudo["titulo"], cfg["aspecto"])
+    return video
+
+
+def aplicar_motion(video: str, titulo: str, aspecto: str) -> str:
+    import motion  # automacao/motion.py
+
+    pasta = os.path.dirname(os.path.abspath(video))
+    palavras = os.path.join(pasta, "audio.palavras.json")
+    if not os.path.exists(palavras):
+        raise RuntimeError("Tempos por palavra não encontrados (o estilo motion exige a voz da ElevenLabs).")
+    largura, altura = (1080, 1920) if aspecto == "9:16" else (1920, 1080)
+    from moviepy import VideoFileClip
+
+    with VideoFileClip(video) as clip:
+        duracao = clip.duration
+    saida = os.path.join(pasta, "final-motion.mp4")
+    logger.info("Aplicando texto animado (motion design)...")
+    motion.aplicar(video, palavras, titulo, saida, largura, altura, duracao,
+                   os.path.join(RAIZ, "resource", "fonts"))
+    return saida
 
 
 def publicar(formato: str, conteudo: dict, video: str, privacidade: str) -> dict:
@@ -222,18 +252,22 @@ def publicar(formato: str, conteudo: dict, video: str, privacidade: str) -> dict
     )
 
 
-def gerar(formato: str, tema_avulso: str | None) -> int:
+def gerar(formato: str, tema_avulso: str | None, estilo: str = "classico") -> int:
     historico = carregar_historico()
     tema = tema_avulso or proximo_tema(formato, historico)
-    logger.info(f"Formato: {formato} | Tema: {tema}")
+    logger.info(f"Formato: {formato} | Estilo: {estilo} | Tema: {tema}")
 
     conteudo = gerar_conteudo(formato, tema)
-    video = montar_video(formato, tema, conteudo)
+    video = montar_video(formato, tema, conteudo, estilo)
 
+    for h in historico:  # só o vídeo mais novo fica aguardando aprovação
+        if h.get("status") == "aguardando_aprovacao":
+            h["status"] = "substituido"
     historico.append({
         "data": datetime.now().isoformat(timespec="seconds"),
         "formato": formato,
         "tema": tema,
+        "estilo": estilo,
         "titulo": conteudo["titulo"],
         "roteiro": conteudo["roteiro"],
         "descricao": conteudo["descricao"],
@@ -285,6 +319,8 @@ def main() -> int:
     )
     p.add_argument("--formato", choices=["short", "longo"], help="gera um vídeo novo deste formato")
     p.add_argument("--tema", help="tema avulso (ignora a lista de temas)")
+    p.add_argument("--estilo", choices=["classico", "motion"], default="classico",
+                   help="motion = texto animado palavra por palavra + zoom lento nas paisagens")
     p.add_argument("--publicar", action="store_true",
                    help="publica o último vídeo aguardando aprovação (só depois de aprovado!)")
     p.add_argument("--privacidade", choices=["public", "unlisted", "private"], default="public")
@@ -295,7 +331,7 @@ def main() -> int:
         return publicar_pendente(args.privacidade)
     if not args.formato:
         p.error("informe --formato short|longo para gerar, ou --publicar para publicar o aprovado")
-    return gerar(args.formato, args.tema)
+    return gerar(args.formato, args.tema, args.estilo)
 
 
 if __name__ == "__main__":

@@ -1554,6 +1554,69 @@ def minimax_tts(text: str, voice_id: str, voice_rate: float, voice_file: str, vo
     return None
 
 
+def _elevenlabs_words_from_alignment(alignment: dict) -> list[dict]:
+    """Agrupa o alinhamento por caractere da ElevenLabs em palavras com início/fim (segundos)."""
+    chars = alignment.get("characters") or []
+    starts = alignment.get("character_start_times_seconds") or []
+    ends = alignment.get("character_end_times_seconds") or []
+    if not chars or len(chars) != len(starts) or len(chars) != len(ends):
+        return []
+    words, current = [], None
+    for ch, st, en in zip(chars, starts, ends):
+        if ch.isspace():
+            if current:
+                words.append(current)
+                current = None
+            continue
+        if current is None:
+            current = {"palavra": ch, "inicio": float(st), "fim": float(en)}
+        else:
+            current["palavra"] += ch
+            current["fim"] = float(en)
+    if current:
+        words.append(current)
+    return words
+
+
+def _save_word_timings(voice_file: str, words: list[dict]) -> None:
+    """Salva os tempos por palavra ao lado do áudio (ex.: audio.palavras.json)."""
+    try:
+        path = os.path.splitext(voice_file)[0] + ".palavras.json"
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump(words, f, ensure_ascii=False, indent=1)
+    except Exception as e:
+        logger.warning(f"failed to save word timings: {e}")
+
+
+def _populate_submaker_from_words(
+    sub_maker: SubMaker, text: str, words: list[dict], audio_duration: float
+) -> Union[SubMaker, None]:
+    """Preenche subs/offset por frase usando os tempos reais das palavras.
+
+    Retorna None se a contagem de palavras não bater com o roteiro (aí o chamador
+    usa a estimativa proporcional antiga).
+    """
+    sentences = [s.strip() for s in utils.split_string_by_punctuations(text) if s.strip()]
+    counts = [len(s.split()) for s in sentences]
+    if not sentences or sum(counts) != len(words):
+        logger.warning(
+            f"word timings do not match script ({sum(counts)} vs {len(words)} words); "
+            "falling back to proportional subtitle timing"
+        )
+        return None
+    sub_maker = ensure_legacy_submaker_fields(sub_maker)
+    sub_maker.subs, sub_maker.offset = [], []
+    total = max(int(audio_duration * 10000000), 1)
+    index = 0
+    for i, (sentence, count) in enumerate(zip(sentences, counts)):
+        start = int(words[index]["inicio"] * 10000000) if i else 0
+        index += count
+        end = int(words[index]["inicio"] * 10000000) if index < len(words) else total
+        sub_maker.subs.append(sentence)
+        sub_maker.offset.append((start, max(end, start + 1)))
+    return sub_maker
+
+
 def elevenlabs_tts(
     text: str,
     voice_id: str,
@@ -1575,7 +1638,9 @@ def elevenlabs_tts(
     if not model_id:
         model_id = config.elevenlabs.get("model_id", "eleven_multilingual_v2")
 
-    url = f"https://api.elevenlabs.io/v1/text-to-speech/{voice_id}"
+    # O endpoint "with-timestamps" devolve o áudio e o tempo de cada caractere,
+    # o que permite legendas com o tempo exato de cada palavra.
+    url = f"https://api.elevenlabs.io/v1/text-to-speech/{voice_id}/with-timestamps"
     headers = {
         "xi-api-key": api_key,
         "Content-Type": "application/json",
@@ -1623,8 +1688,9 @@ def elevenlabs_tts(
                 )
                 continue
 
+            data = response.json()
             with open(voice_file, "wb") as f:
-                f.write(response.content)
+                f.write(base64.b64decode(data["audio_base64"]))
 
             audio_clip = AudioFileClip(voice_file)
             audio_duration = audio_clip.duration
@@ -1632,6 +1698,12 @@ def elevenlabs_tts(
 
             sub_maker = ensure_legacy_submaker_fields(SubMaker())
             logger.success(f"elevenlabs tts succeeded: {voice_file}")
+            words = _elevenlabs_words_from_alignment(data.get("alignment") or {})
+            if words:
+                _save_word_timings(voice_file, words)
+                filled = _populate_submaker_from_words(sub_maker, text, words, audio_duration)
+                if filled is not None:
+                    return filled
             return populate_legacy_submaker_with_full_text(
                 sub_maker=sub_maker,
                 text=text,
