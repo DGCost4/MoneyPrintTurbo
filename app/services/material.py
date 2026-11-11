@@ -164,12 +164,18 @@ def get_api_key(cfg_key: str):
 
     # if only one key is provided, return it
     if isinstance(api_keys, str):
-        return api_keys
+        return _limpar_chave(api_keys)
 
     global _api_key_counter
     with _api_key_lock:
         _api_key_counter += 1
-        return api_keys[_api_key_counter % len(api_keys)]
+        return _limpar_chave(api_keys[_api_key_counter % len(api_keys)])
+
+
+def _limpar_chave(chave: str) -> str:
+    """Remove um eventual nome colado antes da chave (ex.: "NOME_DA_VARIAVEL 1234-abcd")."""
+    partes = str(chave).split()
+    return partes[-1] if partes else ""
 
 
 def _redact_secret(message: str, secret: str) -> str:
@@ -373,6 +379,12 @@ def search_videos_pexels(
     return []
 
 
+def _aceitar_horizontal() -> bool:
+    """Com MPT_ACEITAR_HORIZONTAL=1 aceita clipes de qualquer orientação; o modo de
+    transição ken-burns corta o clipe para preencher a tela sem faixas pretas."""
+    return os.getenv("MPT_ACEITAR_HORIZONTAL", "") == "1"
+
+
 def search_videos_pixabay(
     search_term: str,
     minimum_duration: int,
@@ -386,7 +398,9 @@ def search_videos_pixabay(
     # Build URL
     params = {
         "q": search_term,
-        "video_type": "all",  # Accepted values: "all", "film", "animation"
+        # Accepted values: "all", "film", "animation". MPT_ACEITAR_HORIZONTAL (estilo
+        # motion) pede só filmagens reais.
+        "video_type": "film" if _aceitar_horizontal() else "all",
         "per_page": 50,
         "key": api_key,
     }
@@ -459,7 +473,7 @@ def search_videos_pixabay(
                     continue
                 # Pixabay 很少返回原生方形视频；1:1 输出继续接受满足分辨率的
                 # 候选并由合成阶段裁剪。横竖屏则必须严格匹配目标方向。
-                orientation_matches = aspect == VideoAspect.square or (
+                orientation_matches = aspect == VideoAspect.square or _aceitar_horizontal() or (
                     _matches_video_aspect(w, h, aspect)
                 )
                 if orientation_matches and w >= video_width:

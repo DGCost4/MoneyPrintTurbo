@@ -181,7 +181,7 @@ def montar_video(formato: str, tema: str, conteudo: dict, estilo: str = "classic
         "--video-script", conteudo["roteiro"],
         "--video-terms", ",".join(conteudo["termos"]),
         "--video-language", "pt-BR",
-        "--video-source", "coverr",
+        "--video-source", "pixabay",
         "--video-aspect", cfg["aspecto"],
         "--video-clip-duration", cfg["duracao_clipe"],
         "--video-transition-mode", "ken-burns" if motion_design else "fade-in",
@@ -197,7 +197,10 @@ def montar_video(formato: str, tema: str, conteudo: dict, estilo: str = "classic
         # A legenda comum é trocada pelo texto animado desenhado depois (automacao/motion.py).
         cmd.append("--no-subtitle-enabled")
     logger.info(f"Montando vídeo '{formato}' sobre: {tema}")
-    proc = subprocess.run(cmd, cwd=RAIZ, capture_output=True, text=True)
+    env = dict(os.environ)
+    if motion_design:
+        env["MPT_ACEITAR_HORIZONTAL"] = "1"  # paisagens horizontais cortadas para preencher a tela
+    proc = subprocess.run(cmd, cwd=RAIZ, capture_output=True, text=True, env=env)
     if proc.returncode != 0:
         erros = [l for l in (proc.stdout + proc.stderr).splitlines() if "ERROR" in l or "Traceback" in l]
         logger.error("\n".join(erros[-20:]) or (proc.stdout + proc.stderr)[-4000:])

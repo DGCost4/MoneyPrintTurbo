@@ -1,14 +1,15 @@
 #!/usr/bin/env bash
 # Prepara o projeto numa máquina nova: cria o config.toml do canal e instala as dependências.
-# Não contém chaves: Gemini, Upload-Post, Coverr e ElevenLabs são injetadas pelo
-# proxy do ambiente (no config.toml fica só um valor de marcação).
+# Não contém chaves: Gemini, Upload-Post, Coverr e ElevenLabs são injetadas pelo proxy;
+# a do Pixabay vem da variável de ambiente PIXABAY_API_KEY.
+# (no config.toml fica só um valor de marcação).
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
 if [ ! -f config.toml ]; then
   cp config.example.toml config.toml
   sed -i \
-    -e 's/^video_source = "pexels"/video_source = "coverr"/' \
+    -e 's/^video_source = "pexels"/video_source = "pixabay"/' \
     -e 's/^coverr_api_keys = \[\]/coverr_api_keys = ["chave-injetada-pelo-proxy"]/' \
     -e '/^\[elevenlabs\]/,/^\[/ s/^api_key = ""/api_key = "chave-injetada-pelo-proxy"/' \
     -e 's/^llm_provider = "moonshot"/llm_provider = "gemini"/' \
