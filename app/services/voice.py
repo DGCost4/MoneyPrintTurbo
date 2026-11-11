@@ -630,6 +630,11 @@ def create_edge_tts_communicate(
     if "boundary" in communicate_signature.parameters:
         communicate_kwargs["boundary"] = "WordBoundary"
 
+    # edge_tts 使用 aiohttp，不会自动读取 HTTPS_PROXY；在代理环境下显式传入。
+    https_proxy = os.environ.get("HTTPS_PROXY") or os.environ.get("https_proxy")
+    if https_proxy and "proxy" in communicate_signature.parameters:
+        communicate_kwargs["proxy"] = https_proxy
+
     return edge_tts.Communicate(text, voice_name, **communicate_kwargs)
 
 

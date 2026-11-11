@@ -1,0 +1,49 @@
+# Histórias bíblicas para vídeos longos (um tema por linha).
+# Os temas já usados ficam registrados em automacao/historico.json.
+A criação do mundo em Gênesis
+Adão e Eva e a queda no Jardim do Éden
+Caim e Abel: o primeiro irmão
+Noé e o dilúvio
+A Torre de Babel
+O chamado de Abraão
+Abraão e o sacrifício de Isaque
+Jacó e Esaú: a bênção roubada
+A escada de Jacó
+José do Egito: de escravo a governador
+Moisés no rio Nilo
+Moisés e a sarça ardente
+As dez pragas do Egito
+A travessia do Mar Vermelho
+Os Dez Mandamentos no Monte Sinai
+As muralhas de Jericó
+Gideão e os 300 homens
+Sansão e Dalila
+A história de Rute e Noemi
+Ana e o nascimento de Samuel
+Davi e Golias
+Davi e Jônatas: uma amizade fiel
+A sabedoria do rei Salomão
+Elias e os profetas de Baal no Monte Carmelo
+Elias e a viúva de Sarepta
+Jonas e o grande peixe
+Daniel na cova dos leões
+Sadraque, Mesaque e Abede-Nego na fornalha
+A rainha Ester e a coragem de salvar seu povo
+Jó: a fé no meio do sofrimento
+O nascimento de Jesus em Belém
+O batismo de Jesus no rio Jordão
+As bodas de Caná
+Jesus acalma a tempestade
+A multiplicação dos pães e peixes
+Jesus anda sobre as águas
+A parábola do filho pródigo
+A parábola do bom samaritano
+Zaqueu, o cobrador de impostos
+A ressurreição de Lázaro
+A última ceia
+A negação de Pedro
+A crucificação de Jesus
+A ressurreição de Jesus
+O caminho de Emaús
+A conversão de Paulo no caminho de Damasco
+Pentecostes: a vinda do Espírito Santo
