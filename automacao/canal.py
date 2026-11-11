@@ -22,6 +22,7 @@ import os
 import re
 import subprocess
 import sys
+import time
 from datetime import datetime
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
@@ -31,12 +32,15 @@ os.chdir(RAIZ)
 
 from loguru import logger  # noqa: E402
 
+from app.config import config  # noqa: E402
 from app.services import llm  # noqa: E402
 from app.services.upload_post import upload_post_service  # noqa: E402
 
 HISTORICO = os.path.join(AQUI, "historico.json")
-VOZ = "pt-BR-AntonioNeural-Male"
+VOZ = "gemini:Charon-Male"
 FONTE = "BeVietnamPro-Bold.ttf"
+# Modelos de texto do Gemini, em ordem de preferência (usa o próximo se um estiver sobrecarregado).
+MODELOS_GEMINI = ["gemini-3.5-flash", "gemini-3-flash-preview", "gemini-3.5-flash-lite", "gemini-flash-lite-latest"]
 
 FORMATOS = {
     "short": {
@@ -130,9 +134,19 @@ def gerar_conteudo(formato: str, tema: str) -> dict:
         f"Você é roteirista de um canal cristão brasileiro no YouTube.\n\n"
         f"Tema: {tema}\n\n{FORMATOS[formato]['instrucoes']}\n{REGRAS_GERAIS}"
     )
-    for tentativa in range(3):
-        resposta = llm._generate_response(prompt=prompt)
+    tentativas = len(MODELOS_GEMINI) * 2
+    for tentativa in range(tentativas):
+        # Alterna entre modelos: quando um está sobrecarregado, usa o próximo.
+        modelo = MODELOS_GEMINI[tentativa % len(MODELOS_GEMINI)]
+        app_config = dict(config.app)
+        app_config["gemini_model_name"] = modelo
+        resposta = llm._generate_response(prompt=prompt, app_config=app_config)
         if resposta.startswith("Error:"):
+            temporario = any(c in resposta for c in ("500", "502", "503", "429", "UNAVAILABLE", "RESOURCE_EXHAUSTED", "Bad Gateway"))
+            if temporario and tentativa < tentativas - 1:
+                logger.warning(f"Modelo {modelo} sobrecarregado, tentando outro...")
+                time.sleep(10)
+                continue
             raise RuntimeError(f"Falha ao chamar a IA: {resposta}")
         conteudo = {
             "titulo": _campo(resposta, "TITULO"),
@@ -145,7 +159,7 @@ def gerar_conteudo(formato: str, tema: str) -> dict:
         if conteudo["titulo"] and len(conteudo["roteiro"].split()) >= minimo and conteudo["termos"]:
             return conteudo
         logger.warning(f"Resposta incompleta da IA (tentativa {tentativa + 1}), tentando de novo...")
-    raise RuntimeError("A IA não retornou um roteiro válido após 3 tentativas.")
+    raise RuntimeError(f"A IA não retornou um roteiro válido após {tentativas} tentativas.")
 
 
 def montar_video(formato: str, tema: str, conteudo: dict) -> str:
