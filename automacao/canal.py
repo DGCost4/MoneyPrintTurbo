@@ -39,6 +39,7 @@ from app.services.upload_post import upload_post_service  # noqa: E402
 HISTORICO = os.path.join(AQUI, "historico.json")
 VOZ = "gemini:Charon-Male"
 FONTE = "BeVietnamPro-Bold.ttf"
+NOME_CANAL = "Salmo e Pimenta"
 # Modelos de texto do Gemini, em ordem de preferência (usa o próximo se um estiver sobrecarregado).
 MODELOS_GEMINI = ["gemini-3.5-flash", "gemini-3-flash-preview", "gemini-3.5-flash-lite", "gemini-flash-lite-latest"]
 
@@ -131,7 +132,8 @@ def _campo(texto: str, nome: str) -> str:
 
 def gerar_conteudo(formato: str, tema: str) -> dict:
     prompt = (
-        f"Você é roteirista de um canal cristão brasileiro no YouTube.\n\n"
+        f"Você é roteirista do canal cristão brasileiro \"{NOME_CANAL}\" no YouTube. "
+        f"Ao convidar para se inscrever, cite o nome do canal.\n\n"
         f"Tema: {tema}\n\n{FORMATOS[formato]['instrucoes']}\n{REGRAS_GERAIS}"
     )
     tentativas = len(MODELOS_GEMINI) * 2
