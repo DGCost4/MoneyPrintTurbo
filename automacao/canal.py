@@ -1,18 +1,22 @@
 """
-Automação do canal religioso: gera um vídeo e publica no YouTube.
+Automação do canal religioso: gera um vídeo e, só depois de aprovado, publica no YouTube.
 
 Uso (a partir da raiz do projeto):
+    # 1) Gera o vídeo e deixa aguardando aprovação (NÃO publica):
     .venv/bin/python automacao/canal.py --formato short
     .venv/bin/python automacao/canal.py --formato longo
-    .venv/bin/python automacao/canal.py --formato short --nao-postar   # só gera
-    .venv/bin/python automacao/canal.py --formato longo --privacidade private
     .venv/bin/python automacao/canal.py --formato short --tema "Tema avulso"
 
+    # 2) Depois que o vídeo foi assistido e aprovado, publica o último pendente:
+    .venv/bin/python automacao/canal.py --publicar
+    .venv/bin/python automacao/canal.py --publicar --privacidade private
+
 Fluxo:
-  1. Escolhe o próximo tema ainda não usado (temas_shorts.txt / temas_longos.txt).
+  1. Escolhe o próximo tema ainda não publicado (temas_shorts.txt / temas_longos.txt).
   2. Pede ao Gemini título, roteiro, descrição, tags e termos de busca de imagens.
   3. Chama o cli.py do MoneyPrinterTurbo para montar o vídeo (voz, legenda, música).
-  4. Publica no YouTube via Upload-Post e registra no historico.json.
+  4. Registra no historico.json com status "aguardando_aprovacao".
+  5. Com --publicar, envia o vídeo pendente ao YouTube via Upload-Post.
 """
 from __future__ import annotations
 
@@ -37,7 +41,7 @@ from app.services import llm  # noqa: E402
 from app.services.upload_post import upload_post_service  # noqa: E402
 
 HISTORICO = os.path.join(AQUI, "historico.json")
-VOZ = "gemini:Charon-Male"
+VOZ = "elevenlabs:nPczCjzI2devNBz1zQrb:Brian"
 FONTE = "BeVietnamPro-Bold.ttf"
 NOME_CANAL = "Salmo e Pimenta"
 # Modelos de texto do Gemini, em ordem de preferência (usa o próximo se um estiver sobrecarregado).
@@ -187,7 +191,8 @@ def montar_video(formato: str, tema: str, conteudo: dict) -> str:
     logger.info(f"Montando vídeo '{formato}' sobre: {tema}")
     proc = subprocess.run(cmd, cwd=RAIZ, capture_output=True, text=True)
     if proc.returncode != 0:
-        logger.error(proc.stderr[-4000:])
+        erros = [l for l in (proc.stdout + proc.stderr).splitlines() if "ERROR" in l or "Traceback" in l]
+        logger.error("\n".join(erros[-20:]) or (proc.stdout + proc.stderr)[-4000:])
         raise RuntimeError(f"Falha ao montar o vídeo (código {proc.returncode}).")
     ultima_linha = [l for l in proc.stdout.splitlines() if l.strip()][-1]
     resultado = json.loads(ultima_linha)["result"]
@@ -217,47 +222,80 @@ def publicar(formato: str, conteudo: dict, video: str, privacidade: str) -> dict
     )
 
 
-def main() -> int:
-    p = argparse.ArgumentParser(description="Gera e publica um vídeo do canal religioso.")
-    p.add_argument("--formato", choices=["short", "longo"], required=True)
-    p.add_argument("--tema", help="tema avulso (ignora a lista de temas)")
-    p.add_argument("--nao-postar", action="store_true", help="só gera o vídeo, sem publicar")
-    p.add_argument("--privacidade", choices=["public", "unlisted", "private"], default="public")
-    args = p.parse_args()
-
+def gerar(formato: str, tema_avulso: str | None) -> int:
     historico = carregar_historico()
-    tema = args.tema or proximo_tema(args.formato, historico)
-    logger.info(f"Formato: {args.formato} | Tema: {tema}")
+    tema = tema_avulso or proximo_tema(formato, historico)
+    logger.info(f"Formato: {formato} | Tema: {tema}")
 
-    conteudo = gerar_conteudo(args.formato, tema)
-    video = montar_video(args.formato, tema, conteudo)
-    logger.success(f"Vídeo pronto: {video}")
+    conteudo = gerar_conteudo(formato, tema)
+    video = montar_video(formato, tema, conteudo)
 
-    registro = {
+    historico.append({
         "data": datetime.now().isoformat(timespec="seconds"),
-        "formato": args.formato,
+        "formato": formato,
         "tema": tema,
         "titulo": conteudo["titulo"],
+        "roteiro": conteudo["roteiro"],
+        "descricao": conteudo["descricao"],
+        "tags": conteudo["tags"],
         "video": video,
+        "status": "aguardando_aprovacao",
         "publicado": False,
-    }
-
-    if args.nao_postar:
-        logger.info("Opção --nao-postar ativa: vídeo não foi publicado.")
-    elif not upload_post_service.is_configured():
-        logger.warning("Upload-Post não configurado no config.toml: vídeo não foi publicado.")
-    else:
-        resultado = publicar(args.formato, conteudo, video, args.privacidade)
-        registro["publicado"] = bool(resultado.get("success"))
-        registro["resposta_upload"] = resultado
-        if not registro["publicado"]:
-            logger.error(f"Falha ao publicar: {resultado}")
-
-    historico.append(registro)
+    })
     salvar_historico(historico)
     with open(os.path.splitext(video)[0] + "-roteiro.txt", "w", encoding="utf-8") as f:
         f.write(f"{conteudo['titulo']}\n\n{conteudo['roteiro']}\n\n---\n{conteudo['descricao']}\n")
-    return 0 if (registro["publicado"] or args.nao_postar) else 1
+    logger.success(f"Vídeo pronto, AGUARDANDO APROVAÇÃO (não publicado): {video}")
+    logger.info("Depois de aprovar, publique com: .venv/bin/python automacao/canal.py --publicar")
+    return 0
+
+
+def publicar_pendente(privacidade: str) -> int:
+    historico = carregar_historico()
+    pendentes = [h for h in historico if h.get("status") == "aguardando_aprovacao"]
+    if not pendentes:
+        logger.error("Nenhum vídeo aguardando aprovação. Gere um com --formato short|longo.")
+        return 1
+    registro = pendentes[-1]
+    if not os.path.exists(registro["video"]):
+        logger.error(f"Arquivo do vídeo não encontrado: {registro['video']}")
+        return 1
+    if not upload_post_service.is_configured():
+        logger.error("Upload-Post não configurado no config.toml: vídeo não foi publicado.")
+        return 1
+
+    logger.info(f"Publicando ({privacidade}): {registro['titulo']}")
+    resultado = publicar(registro["formato"], registro, registro["video"], privacidade)
+    registro["publicado"] = bool(resultado.get("success"))
+    registro["resposta_upload"] = resultado
+    registro["privacidade"] = privacidade
+    if registro["publicado"]:
+        registro["status"] = "publicado"
+        registro["data_publicacao"] = datetime.now().isoformat(timespec="seconds")
+        logger.success("Vídeo publicado.")
+    else:
+        logger.error(f"Falha ao publicar: {resultado}")
+    salvar_historico(historico)
+    return 0 if registro["publicado"] else 1
+
+
+def main() -> int:
+    p = argparse.ArgumentParser(
+        description="Gera um vídeo do canal religioso (aguardando aprovação) ou publica o vídeo aprovado."
+    )
+    p.add_argument("--formato", choices=["short", "longo"], help="gera um vídeo novo deste formato")
+    p.add_argument("--tema", help="tema avulso (ignora a lista de temas)")
+    p.add_argument("--publicar", action="store_true",
+                   help="publica o último vídeo aguardando aprovação (só depois de aprovado!)")
+    p.add_argument("--privacidade", choices=["public", "unlisted", "private"], default="public")
+    p.add_argument("--nao-postar", action="store_true", help=argparse.SUPPRESS)  # compatibilidade
+    args = p.parse_args()
+
+    if args.publicar:
+        return publicar_pendente(args.privacidade)
+    if not args.formato:
+        p.error("informe --formato short|longo para gerar, ou --publicar para publicar o aprovado")
+    return gerar(args.formato, args.tema)
 
 
 if __name__ == "__main__":
