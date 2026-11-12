@@ -3,8 +3,8 @@ Uso: python3 narrar.py <pasta> "<texto>"  -> <pasta>/narracao.mp3 e <pasta>/pala
 import json, base64, sys, urllib.request, os
 VOZ = os.environ.get("VOZ", "IKpiSijWzlhOL6uX83EH")   # padrão: Will - Slow, Confident and Distant (pt-BR)
 pasta, texto = sys.argv[1], sys.argv[2]
-body = json.dumps({"text": texto, "model_id": "eleven_multilingual_v2", "language_code": "pt",
-    "voice_settings": {"stability": 0.55, "similarity_boost": 0.8, "style": 0.15,
+body = json.dumps({"text": texto, "model_id": os.environ.get("MODELO", "eleven_multilingual_v2"), "language_code": "pt",
+    "voice_settings": {"stability": float(os.environ.get("ESTAB", "0.55")), "similarity_boost": 0.8, "style": float(os.environ.get("ESTILO", "0.15")),
                        "use_speaker_boost": True, "speed": float(os.environ.get("VEL", "1.0"))}}).encode()
 req = urllib.request.Request(
     f"https://api.elevenlabs.io/v1/text-to-speech/{VOZ}/with-timestamps?output_format=mp3_44100_128",
