@@ -71,16 +71,20 @@ def executar(cmd: list[str]) -> None:
         raise RuntimeError(f"Falhou: {' '.join(cmd[:3])}...\n{(proc.stdout + proc.stderr)[-3000:]}")
 
 
-def gerar(arquivo_historia: str) -> str:
+def gerar(arquivo_historia: str, pasta_existente: str | None = None) -> str:
     with open(arquivo_historia, encoding="utf-8") as f:
         historia = json.load(f)
-    pasta = os.path.join(RAIZ, "storage", "tasks", f"historia-{uuid.uuid4().hex[:8]}")
+    # Com uma pasta existente, reaproveita a narração já gravada (não gasta cota de voz).
+    pasta = os.path.abspath(pasta_existente or os.path.join(RAIZ, "storage", "tasks", f"historia-{uuid.uuid4().hex[:8]}"))
     os.makedirs(pasta, exist_ok=True)
     texto = " ".join(s["texto"].strip() for s in historia["segmentos"])
 
     logger.info(f"História: {historia['titulo']} | narrando...")
     audio = os.path.join(pasta, "audio.mp3")
-    if not voice.tts(texto, canal.VOZ, 1.0, audio):
+    reaproveitar = os.path.exists(audio) and os.path.exists(os.path.join(pasta, "audio.palavras.json"))
+    if reaproveitar:
+        logger.info("Reaproveitando a narração já gravada nesta pasta.")
+    elif not voice.tts(texto, canal.VOZ, 1.0, audio):
         raise RuntimeError("Falha na narração.")
     arquivo_palavras = os.path.join(pasta, "audio.palavras.json")
     with open(arquivo_palavras, encoding="utf-8") as f:
@@ -110,7 +114,7 @@ def gerar(arquivo_historia: str) -> str:
     logger.info("Aplicando texto animado...")
     final = os.path.join(pasta, "final-historia.mp4")
     motion.aplicar(com_audio, arquivo_palavras, historia["titulo"], final, 1080, 1920, duracao,
-                   os.path.join(RAIZ, "resource", "fonts"), posicao_texto=0.8)
+                   os.path.join(RAIZ, "resource", "fonts"), posicao_texto=0.72)
 
     historico = canal.carregar_historico()
     for h in historico:
@@ -135,6 +139,8 @@ def gerar(arquivo_historia: str) -> str:
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        raise SystemExit("Uso: .venv/bin/python automacao/historia.py automacao/historias/<historia>.json")
-    gerar(sys.argv[1])
+    if len(sys.argv) not in (2, 3):
+        raise SystemExit(
+            "Uso: .venv/bin/python automacao/historia.py automacao/historias/<historia>.json [pasta_para_reaproveitar]"
+        )
+    gerar(sys.argv[1], sys.argv[2] if len(sys.argv) == 3 else None)

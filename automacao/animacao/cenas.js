@@ -131,7 +131,7 @@ function baleia(ctx, x, y, s, t, boca = 0, brilho = 0) {
   // luz dentro da barriga (oração de Jonas)
   if (brilho > 0.01) {
     const rg = ctx.createRadialGradient(40, 40, 0, 40, 40, 260);
-    rg.addColorStop(0, `rgba(255,236,170,${0.9 * brilho})`);
+    rg.addColorStop(0, `rgba(255,240,180,${brilho})`);
     rg.addColorStop(1, "rgba(255,236,170,0)");
     ctx.fillStyle = rg; ctx.fillRect(-400, -250, 800, 450);
   }
@@ -147,7 +147,7 @@ function baleia(ctx, x, y, s, t, boca = 0, brilho = 0) {
     ctx.save(); ctx.translate(x + 40 * s, y + 40 * s); ctx.globalCompositeOperation = "lighter";
     for (let i = 0; i < 10; i++) {
       const a = (i / 10) * Math.PI * 2 + t * 0.25;
-      ctx.rotate(0); ctx.fillStyle = `rgba(255,220,150,${0.08 * brilho})`;
+      ctx.fillStyle = `rgba(255,220,150,${0.16 * brilho})`;
       ctx.beginPath(); ctx.moveTo(0, 0);
       ctx.lineTo(Math.cos(a - 0.06) * 700, Math.sin(a - 0.06) * 700); ctx.lineTo(Math.cos(a + 0.06) * 700, Math.sin(a + 0.06) * 700); ctx.fill();
     }
@@ -345,7 +345,7 @@ CENAS.praia = function (ctx, t, d) {
     ctx.beginPath(); ctx.moveTo(bx - 22, by - asa); ctx.quadraticCurveTo(bx - 8, by - 8, bx, by); ctx.quadraticCurveTo(bx + 8, by - 8, bx + 22, by - asa); ctx.stroke();
   }
   // Jonas na areia, erguendo as mãos aos poucos
-  pessoa(ctx, 330, 1640, 1.15, 0, suave((t - 0.6) / 2));
+  pessoa(ctx, 190, 1700, 1.1, 0, suave((t - 0.6) / 2));
   vinheta(ctx, 0.3);
 };
 
