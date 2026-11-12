@@ -51,12 +51,18 @@ FORMATOS = {
         "velocidade_voz": "1.0",
         "posicao_legenda": "center",
         "tamanho_fonte": "60",
+        # Padrão dos Shorts: automacao/ESTILO_SHORTS.md
         "instrucoes": (
-            "Escreva uma REFLEXÃO cristã curta para um YouTube Short de 45 a 55 segundos "
-            "(entre 110 e 140 palavras). Comece com uma frase de impacto que prenda a "
-            "atenção nos 3 primeiros segundos. Tom acolhedor, esperançoso e pessoal, "
-            "falando diretamente com quem assiste (\"você\"). Termine com uma frase curta "
-            "de encorajamento ou uma breve oração, e um convite simples para seguir o canal."
+            "Escreva uma REFLEXÃO cristã para um YouTube Short de 35 a 50 segundos "
+            "(entre 85 e 120 palavras). NÃO reconte a história: tire dela uma reflexão "
+            "para a vida de quem assiste (\"você\"). Frases curtas, uma ideia por frase. "
+            "Estrutura: (1) GANCHO nos 3 primeiros segundos que contraria o esperado e abre "
+            "uma pergunta que o vídeo responde (ex.: \"Davi não venceu Golias porque era "
+            "corajoso.\"), nunca isca que o vídeo não paga; (2) a tensão vista do jeito "
+            "comum; (3) a virada que a Bíblia mostra; (4) a aplicação, com nomes concretos "
+            "dos 'gigantes' de quem assiste; (5) uma frase-tese curta com a referência "
+            "bíblica; (6) um convite para COMENTAR algo pessoal (ex.: \"Comenta o nome do "
+            "seu gigante, que a gente ora junto.\")."
         ),
     },
     "longo": {
@@ -157,7 +163,7 @@ def gerar_conteudo(formato: str, tema: str) -> dict:
             "tags": [t.strip() for t in _campo(resposta, "TAGS").split(",") if t.strip()],
             "termos": [t.strip() for t in _campo(resposta, "TERMOS").split(",") if t.strip()],
         }
-        minimo = 80 if formato == "short" else 700
+        minimo = 70 if formato == "short" else 700
         if conteudo["titulo"] and len(conteudo["roteiro"].split()) >= minimo and conteudo["termos"]:
             return conteudo
         logger.warning(f"Resposta incompleta da IA (tentativa {tentativa + 1}), tentando de novo...")
