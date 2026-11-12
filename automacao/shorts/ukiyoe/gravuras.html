@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><title>Gravuras</title>
+<style>html,body{margin:0;background:#000}canvas{display:block}</style></head>
+<body><canvas id="c" width="1080" height="1920"></canvas>
+<script src="gravura.js"></script>
+<script>
+const params = new URLSearchParams(location.search);
+const s = document.createElement("script");
+s.src = params.get("cenas") || "cenas_davi_golias.js";
+s.onload = () => {
+  prepararTexturas();
+  window.desenhar = (id) => {
+    novaFolha(); SEED = 1;
+    CENAS[id]();
+    const c = document.getElementById("c").getContext("2d");
+    c.clearRect(0, 0, W, H); imprimir(c);
+    return document.getElementById("c").toDataURL("image/png");
+  };
+  window.IDS = Object.keys(CENAS);
+  window.PRONTO = true;
+};
+document.body.appendChild(s);
+</script></body></html>
