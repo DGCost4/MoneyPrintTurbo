@@ -426,7 +426,8 @@ function render(t) {
     amostras.push(words.map((wd) => { const o = {}; PROPS.forEach((p) => (o[p] = wd[p])); return o; }));
   }
   tl.time(t, true);
-  drawFundo(t);
+  (window.FUNDO || drawFundo)(t, ctx);
+  ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalCompositeOperation = "source-over"; ctx.globalAlpha = 1;
 
   // camada de texto
   tctx.setTransform(1, 0, 0, 1, 0, 0);
@@ -456,7 +457,7 @@ function render(t) {
     }
   }
   ctx.save(); ctx.setTransform(1, 0, 0, 1, 0, 0);
-  ctx.shadowColor = "rgba(255,70,40,0.55)"; ctx.shadowBlur = 34;
+  ctx.shadowColor = window.BRILHO || "rgba(255,70,40,0.55)"; ctx.shadowBlur = window.BRILHO_RAIO || 34;
   ctx.drawImage(tcv, 0, 0);
   ctx.restore();
   if (g > 0.35) {

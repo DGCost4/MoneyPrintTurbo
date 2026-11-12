@@ -21,6 +21,7 @@ const carregar = (src) => new Promise((ok, erro) => {
 document.fonts.load('700 100px Vietnam')
   .then(() => carregar("motor.js"))
   .then(() => carregar(`${peca}/coreografia.js`))
+  .then(() => window.PRELOAD || null)
   .then(() => { window.DURATION = DURACAO; window.SFX_EVENTOS = SFX; window.READY = true; })
   .catch((e) => console.error("falha ao carregar", e));
 </script>

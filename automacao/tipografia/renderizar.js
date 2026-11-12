@@ -6,7 +6,7 @@ const { spawn, execFileSync } = require("child_process");
 const path = require("path");
 const fs = require("fs");
 
-const FPS = 60;
+const FPS = Number((process.argv.find((a) => a.startsWith("--fps=")) || "--fps=60").slice(6));
 const AQUI = __dirname, RAIZ = path.resolve(AQUI, "../..");
 const peca = process.argv[2];
 const arg = (n) => { const i = process.argv.indexOf(n); return i > 0 ? process.argv[i + 1] : null; };
@@ -25,7 +25,7 @@ function analisar(arquivo) {
 }
 
 (async () => {
-  const browser = await chromium.launch({ args: ["--allow-file-access-from-files"] });
+  const browser = await chromium.launch({ args: ["--allow-file-access-from-files", "--disable-web-security"] });
   const page = await browser.newPage({ viewport: { width: 1080, height: 1920 } });
   page.on("console", (m) => console.log("[página]", m.text()));
   page.on("pageerror", (e) => console.error("[erro na página]", e));
@@ -67,7 +67,7 @@ function analisar(arquivo) {
   const entradas = ["-i", path.join(pasta, "narracao.mp3"), "-i", musica];
   const filtros = [
     `[1:a]aresample=48000,volume=1.0[voz]`,
-    `[2:a]aresample=48000,atrim=0:${duracao},afade=t=in:d=1.5,afade=t=out:st=${duracao - 2.5}:d=2.5,volume=0.16[mus]`,
+    `[2:a]aresample=48000,atrim=0:${duracao},afade=t=in:d=1.5,afade=t=out:st=${duracao - 2.5}:d=2.5,volume=${arg("--vol-musica") || "0.16"}[mus]`,
   ];
   const info = {};
   const rot = [];

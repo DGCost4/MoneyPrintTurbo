@@ -11,6 +11,8 @@ SFX = {
     "explosao_luz": ("Reverse cymbal swell into a bright soft cinematic boom with glittering shimmer tail", 2.0),
     "corte": ("Sharp blade slash, metallic schwing with crackling sparks", 1.0),
     "fechamento": ("Two heavy metal pieces sliding and locking together, solid mechanical clunk", 0.8),
+    "taiko": ("Single deep Japanese taiko drum hit, powerful, wooden resonance, short tail", 1.5),
+    "pergaminho": ("Old paper scroll sliding and unrolling quickly across a wooden table, soft paper swish", 1.0),
     "braam": ("Deep cinematic trailer braam hit with sub bass drop, warm and powerful, long tail", 3.0),
 }
 def gerar(item):
