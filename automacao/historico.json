@@ -38,5 +38,25 @@
     "publicado": false,
     "agendado_para": "2026-11-17T18:00:00-03:00",
     "upload_post_job_id": "9749584ecbb24d4a92120cf73cec6e08"
+  },
+  {
+    "data": "2026-11-12T09:45:00-03:00",
+    "formato": "tipografia",
+    "tema": "Elias (1 Reis 19:4–8)",
+    "titulo": "O profeta que pediu pra morrer #shorts",
+    "video": "automacao/tipografia/elias/video_final.mp4",
+    "publicado": false,
+    "agendado_para": "2026-11-14T18:00:00-03:00",
+    "upload_post_job_id": "acc931cfe7d5409e8c654cbdddf8e081"
+  },
+  {
+    "data": "2026-11-12T09:45:00-03:00",
+    "formato": "tipografia",
+    "tema": "Salmo 23:4",
+    "titulo": "O Salmo 23 não promete uma vida sem vale #shorts",
+    "video": "automacao/tipografia/salmo23/video_final.mp4",
+    "publicado": false,
+    "agendado_para": "2026-11-15T18:00:00-03:00",
+    "upload_post_job_id": "f53b8147986741ce899f049018e8497c"
   }
 ]
