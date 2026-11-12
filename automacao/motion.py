@@ -53,7 +53,8 @@ def _agrupar(palavras: list[dict]) -> list[list[dict]]:
     return grupos
 
 
-def gerar_ass(palavras: list[dict], titulo: str, largura: int, altura: int, duracao: float) -> str:
+def gerar_ass(palavras: list[dict], titulo: str, largura: int, altura: int, duracao: float,
+              posicao_texto: float = 0.6) -> str:
     tam = round(altura * 0.055)  # ~105 px em 1920
     tam_titulo = round(altura * 0.04)
     cab = f"""[Script Info]
@@ -73,7 +74,7 @@ Style: Linha,{FONTE_FAMILIA},10,{DOURADO},{DOURADO},&H00000000,&H00000000,0,0,0,
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
 """
     eventos = []
-    cx, cy = largura // 2, round(altura * 0.6)
+    cx, cy = largura // 2, round(altura * posicao_texto)
 
     # Abertura: título com fade + leve crescimento, e uma linha dourada que se abre.
     if titulo:
@@ -124,12 +125,13 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
 
 
 def aplicar(video_entrada: str, palavras_json: str, titulo: str, video_saida: str,
-            largura: int, altura: int, duracao: float, pasta_fontes: str, ffmpeg: str = "ffmpeg") -> str:
+            largura: int, altura: int, duracao: float, pasta_fontes: str, ffmpeg: str = "ffmpeg",
+            posicao_texto: float = 0.6) -> str:
     with open(palavras_json, encoding="utf-8") as f:
         palavras = json.load(f)
     ass_path = os.path.splitext(video_saida)[0] + ".ass"
     with open(ass_path, "w", encoding="utf-8") as f:
-        f.write(gerar_ass(palavras, titulo, largura, altura, duracao))
+        f.write(gerar_ass(palavras, titulo, largura, altura, duracao, posicao_texto))
 
     def esc(caminho: str) -> str:
         return caminho.replace("\\", "/").replace(":", "\\:").replace("'", "\\'")
