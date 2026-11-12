@@ -1,0 +1,241 @@
+<title>Calendário Salmo e Pimenta</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@600;800&family=Be+Vietnam+Pro:wght@400;500;700&display=swap">
+<style>
+/* Layout: uma folha de washi; o mês como grade de gravura, detalhes em lista por data. */
+:root {
+  --papel: #f1e7cf; --papel-2: #e8dcbf; --sumi: #231f1c; --sumi-2: #5b524a;
+  --prussia: #1d3a66; --prussia-2: #4d6f98; --beni: #b8412f; --verde: #50703c; --linha: #cdbf9e;
+  --display: "Shippori Mincho", "Hiragino Mincho ProN", Georgia, serif;
+  --texto: "Be Vietnam Pro", system-ui, -apple-system, "Segoe UI", sans-serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --papel: #121a29; --papel-2: #1a2436; --sumi: #ece2c8; --sumi-2: #b9ad93;
+  --prussia: #8db0d8; --prussia-2: #6d8fbc; --beni: #ef7a62; --verde: #9cc27f; --linha: #2c3a52; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --papel: #121a29; --papel-2: #1a2436; --sumi: #ece2c8; --sumi-2: #b9ad93;
+  --prussia: #8db0d8; --prussia-2: #6d8fbc; --beni: #ef7a62; --verde: #9cc27f; --linha: #2c3a52; color-scheme: dark; }
+* { box-sizing: border-box; }
+body { background: var(--papel); color: var(--sumi); font-family: var(--texto); font-size: 15.5px; line-height: 1.6;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.folha { max-width: 1060px; margin: 0 auto; padding-block: 40px 64px; display: grid; gap: 48px; }
+h1, h2 { font-family: var(--display); font-weight: 800; text-wrap: balance; margin: 0; line-height: 1.15; }
+h1 { font-size: clamp(32px, 5.4vw, 54px); }
+h2 { font-size: clamp(24px, 3.2vw, 32px); }
+h3 { font-size: 16px; margin: 0; }
+p { margin: 0; max-width: 68ch; }
+.rotulo { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--sumi-2); font-weight: 700; }
+.selo { display: inline-grid; place-items: center; width: 54px; height: 54px; background: var(--beni); color: var(--papel);
+  font-family: var(--display); font-weight: 800; font-size: 13px; line-height: 1.05; text-align: center; border-radius: 3px; transform: rotate(-4deg); flex: none; }
+header { display: flex; gap: 20px; align-items: flex-start; border-bottom: 3px double var(--sumi); padding-bottom: 24px; }
+header .sub { color: var(--sumi-2); margin-top: 10px; }
+section { display: grid; gap: 18px; }
+.achados { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; }
+.achado { border-left: 3px solid var(--prussia); padding: 4px 0 4px 14px; display: grid; gap: 6px; min-width: 0; }
+.achado.alerta { border-left-color: var(--beni); }
+.achado p { font-size: 14.5px; }
+.regras { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; }
+.regra { background: var(--papel-2); padding: 14px 16px; display: grid; gap: 4px; min-width: 0; }
+.regra strong { font-family: var(--display); font-size: 19px; }
+/* calendário */
+.legenda { display: flex; flex-wrap: wrap; gap: 14px; font-size: 13px; color: var(--sumi-2); }
+.chip { display: inline-flex; align-items: center; gap: 6px; }
+.chip i { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+.cal { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); border-top: 2px solid var(--sumi); border-left: 1px solid var(--linha); }
+.cal .dow { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; font-weight: 700; padding: 8px; border-right: 1px solid var(--linha); border-bottom: 1px solid var(--linha); color: var(--sumi-2); }
+.dia { min-height: 118px; padding: 8px; border-right: 1px solid var(--linha); border-bottom: 1px solid var(--linha); display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.dia .n { font-family: var(--display); font-weight: 800; font-size: 18px; font-variant-numeric: tabular-nums; display: flex; justify-content: space-between; align-items: baseline; gap: 4px; }
+.dia .n small { font-family: var(--texto); font-size: 10px; font-weight: 700; color: var(--beni); letter-spacing: .04em; text-transform: uppercase; text-align: right; }
+.dia.passado { color: var(--sumi-2); opacity: .45; }
+.item { font-size: 12px; line-height: 1.35; padding: 5px 6px; border-left: 3px solid var(--prussia); background: var(--papel-2); overflow-wrap: anywhere; }
+.item.longo { border-left-color: var(--beni); font-weight: 700; }
+.item.ok::before { content: "Agendado · "; color: var(--verde); font-weight: 700; }
+/* lista */
+.lista { display: grid; gap: 0; border-top: 2px solid var(--sumi); }
+.linha { display: grid; grid-template-columns: 96px 1fr; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--linha); }
+.linha .data { font-family: var(--display); font-weight: 800; font-size: 18px; font-variant-numeric: tabular-nums; line-height: 1.2; }
+.linha .data span { display: block; font-family: var(--texto); font-size: 12px; font-weight: 500; color: var(--sumi-2); }
+.linha .corpo { display: grid; gap: 4px; min-width: 0; }
+.tag { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; padding: 1px 7px; border: 1.5px solid currentColor; border-radius: 2px; margin-right: 6px; }
+.tag.s { color: var(--prussia); } .tag.l { color: var(--beni); } .tag.ag { color: var(--verde); }
+.gancho { font-family: var(--display); font-weight: 800; font-size: 19px; line-height: 1.3; }
+.ideia { font-size: 14px; color: var(--sumi-2); }
+/* cronograma */
+.crono { display: grid; gap: 10px; counter-reset: passo; }
+.etapa { display: grid; grid-template-columns: 120px 1fr; gap: 16px; padding: 12px 0; border-bottom: 1px dashed var(--linha); }
+.etapa .quando { font-weight: 700; font-variant-numeric: tabular-nums; color: var(--prussia); }
+.decisoes { display: grid; gap: 10px; padding-left: 20px; margin: 0; }
+.decisoes li { max-width: 72ch; }
+.fontes { font-size: 13px; color: var(--sumi-2); display: grid; gap: 4px; padding-left: 18px; margin: 0; }
+a { color: var(--prussia); }
+a:focus-visible { outline: 2px solid var(--beni); outline-offset: 2px; }
+@media (max-width: 760px) {
+  .cal { display: none; }
+  .linha, .etapa { grid-template-columns: 1fr; gap: 4px; }
+}
+@media (min-width: 761px) { .so-celular { display: none; } }
+</style>
+
+<div class="folha">
+  <header>
+    <div class="selo">SALMO<br>&amp;<br>PIMENTA</div>
+    <div>
+      <div class="rotulo">Novembro de 2026 · plano do mês</div>
+      <h1>Calendário Salmo e Pimenta</h1>
+      <p class="sub">Um Short por dia às 18h, de 12 a 30 de novembro, e os dois primeiros vídeos longos nos domingos 22 e 29. Abaixo: o que a pesquisa mostrou, a estratégia, o calendário e o cronograma de produção.</p>
+    </div>
+  </header>
+
+  <section>
+    <div class="rotulo">1 · O que a pesquisa mostrou</div>
+    <h2>O resumo em seis pontos</h2>
+    <div class="achados">
+      <div class="achado alerta">
+        <h3>A janela de monetização fecha em 1º de fevereiro de 2027</h3>
+        <p>Hoje o YouTube pede 1.000 inscritos e mais 4.000 horas assistidas em 12 meses ou 10 milhões de visualizações de Shorts em 90 dias. Reportagens de agosto de 2026 dizem que, para quem entrar a partir de 1º/2/2027, a exigência dobra (8.000 horas ou 20 milhões). É a maior urgência do canal; confirme no Help Center do YouTube.</p>
+      </div>
+      <div class="achado">
+        <h3>Shorts trazem inscritos; vídeos longos trazem dinheiro</h3>
+        <p>Shorts pagam centavos por mil visualizações. Vídeos longos de histórias bíblicas pagam bem mais (os blogs falam de US$ 3 a US$ 18 por mil, números de marketing e inflados). Por isso começar os longos agora faz diferença: são eles que somam as 4.000 horas.</p>
+      </div>
+      <div class="achado alerta">
+        <h3>O YouTube corta "conteúdo inautêntico", não IA</h3>
+        <p>Desde julho de 2026 a política nomeia o problema: vídeos genéricos, de modelo pronto, repetitivos. Usar IA e voz sintética não tira a monetização por si só. O modelo "banco de imagens + voz robótica" é o que está sendo cortado. Nosso diferencial (roteiro próprio, gravuras próprias, motion próprio) é exatamente a proteção.</p>
+      </div>
+      <div class="achado">
+        <h3>Gancho no primeiro segundo e verdade na entrega</h3>
+        <p>Os guias concordam: o Short é testado com um público pequeno primeiro, e quem decide se ele sobe é quem fica depois do primeiro segundo. Gancho que contraria o esperado e que o vídeo realmente responde. Isca que não paga derruba o canal.</p>
+      </div>
+      <div class="achado">
+        <h3>Vídeo longo: o clique e a permanência</h3>
+        <p>Título e thumbnail são definidos antes do roteiro. Os primeiros 30 segundos pagam a promessa, a cada 60–90 s há um novo gancho, sem enrolação. 8–15 minutos quando a retenção segura. O sinal mais forte em 2026 é o vídeo levar a pessoa para o próximo vídeo do canal (séries e playlists).</p>
+      </div>
+      <div class="achado">
+        <h3>Horário: testar, não adivinhar</h3>
+        <p>Não existe horário único no Brasil. Para Shorts, os estudos apontam fim de tarde e noite (19h–22h). Mantemos 18h por enquanto e, quando o Studio tiver dados suficientes, testamos 20h. Longos aos domingos à tarde.</p>
+      </div>
+    </div>
+    <p class="ideia">Nota honesta: quase não há dado público confiável sobre canais cristãos brasileiros. O que existe são blogs de ferramentas com números inflados. A partir do fim de novembro, os dados do próprio Studio (retenção, cliques, origem do tráfego) passam a valer mais que qualquer estudo.</p>
+  </section>
+
+  <section>
+    <div class="rotulo">2 · A estratégia do mês</div>
+    <h2>Quatro regras</h2>
+    <div class="regras">
+      <div class="regra"><strong>1 Short por dia, 18h</strong><span>Reflexão com gancho, no padrão do vídeo de Davi e Golias. Constância diária faz o algoritmo testar o canal todo dia.</span></div>
+      <div class="regra"><strong>1 longo por domingo</strong><span>A história completa contada com gravuras, trilha e efeitos. Começa em 22/11 e vira série semanal.</span></div>
+      <div class="regra"><strong>Shorts puxam os longos</strong><span>Na semana de cada vídeo longo, os Shorts tratam do mesmo personagem e apontam para ele.</span></div>
+      <div class="regra"><strong>Advento a partir de 29/11</strong><span>O Advento começa no domingo 29/11. Tema de espera e esperança até o Natal, com a busca do público em alta.</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="rotulo">3 · Calendário</div>
+    <h2>Novembro de 2026</h2>
+    <div class="legenda">
+      <span class="chip"><i style="background: var(--prussia)"></i>Short · 18h</span>
+      <span class="chip"><i style="background: var(--beni)"></i>Vídeo longo · domingo 14h</span>
+      <span class="chip"><i style="background: var(--verde)"></i>Já agendado</span>
+    </div>
+    <div class="cal" id="cal" aria-label="Calendário de novembro de 2026"></div>
+    <p class="so-celular ideia">No celular, o calendário aparece como lista logo abaixo.</p>
+    <div class="lista" id="lista"></div>
+  </section>
+
+  <section>
+    <div class="rotulo">4 · Cronograma de produção</div>
+    <h2>Quando cada coisa fica pronta</h2>
+    <p>Trabalho em lotes de quatro Shorts: você aprova os roteiros do lote, eu faço as gravuras, você aprova a prancha, eu monto os vídeos e só agendo depois do seu "aprovado". Cada vídeo longo segue o mesmo caminho, com um passo a mais: título e thumbnail aprovados antes do roteiro.</p>
+    <div class="crono" id="crono"></div>
+  </section>
+
+  <section>
+    <div class="rotulo">5 · Preciso de você</div>
+    <h2>Três decisões</h2>
+    <ol class="decisoes">
+      <li><strong>Ritmo dos Shorts:</strong> um por dia, como no calendário, ou cinco por semana (folga no sábado e no domingo, quando sai o longo)? Um por dia cresce mais rápido, mas exige aprovar cerca de 7 vídeos por semana.</li>
+      <li><strong>Imagens dos vídeos longos:</strong> um vídeo longo pede de 30 a 40 imagens. Desenhar tudo em código é possível, mas as pessoas ficam simples. Com o faturamento do Google AI Studio ativado, as ilustrações ficam muito mais ricas; pelo que eu sei dos preços, custaria poucos dólares por vídeo (confira na sua conta).</li>
+      <li><strong>Primeiro vídeo longo:</strong> "Davi e Golias: a história completa" em 22/11, aproveitando o Short que sai em 13/11. Aprova o tema ou prefere outro personagem?</li>
+    </ol>
+  </section>
+
+  <section>
+    <div class="rotulo">Fontes consultadas</div>
+    <ul class="fontes">
+      <li><a href="https://www.tubefilter.com/2026/08/10/youtube-partner-program-ad-eligibility-requirements-shorts/" target="_blank" rel="noopener">Tubefilter: exigências do Programa de Parcerias e dos Shorts (ago/2026)</a></li>
+      <li><a href="https://www.newscaststudio.com/2026/08/10/youtube-partner-program-monetization-changes-2027/" target="_blank" rel="noopener">NewscastStudio: mudanças de monetização para 2027</a></li>
+      <li><a href="https://support.google.com/youtube/answer/13429240?hl=en-GB" target="_blank" rel="noopener">YouTube Help: Programa de Parcerias expandido (inclui o Brasil)</a></li>
+      <li><a href="https://www.tubefilter.com/2026/07/13/youtube-inauthentic-content-monetization-policy-update/" target="_blank" rel="noopener">Tubefilter: política de conteúdo inautêntico (jul/2026)</a></li>
+      <li><a href="https://vidiq.com/blog/post/youtube-ai-monetization/" target="_blank" rel="noopener">vidIQ: monetização de vídeos feitos com IA</a></li>
+      <li><a href="https://fluxnote.io/guides/how-much-bible-stories-channel-makes" target="_blank" rel="noopener">Fluxnote: quanto rende um canal de histórias bíblicas (números otimistas)</a></li>
+      <li><a href="https://www.gofaceless.ai/en/blog/faceless-youtube-long-form-video-rpm" target="_blank" rel="noopener">GoFaceless: RPM de vídeos longos sem rosto</a></li>
+      <li><a href="https://arxiv.org/html/2509.10957v1" target="_blank" rel="noopener">"The Digital Landscape of God" (ICWSM 2026): narrativa e engajamento em vídeos religiosos</a></li>
+      <li><a href="https://vidiq.com/blog/post/viral-video-hooks-youtube-shorts/" target="_blank" rel="noopener">vidIQ: ganchos para Shorts</a></li>
+      <li><a href="https://www.socialpilot.co/pt/insights/best-time-to-post-on-youtube" target="_blank" rel="noopener">SocialPilot: melhores horários no YouTube em 2026</a></li>
+      <li><a href="https://www.clickanalytic.com/pt/?p=57072" target="_blank" rel="noopener">ClickAnalytic: horário para Shorts em 2026</a></li>
+    </ul>
+  </section>
+</div>
+
+<script>
+const PLANO = [
+  { d: 12, tipo: "s", ok: true, gancho: "Quando o chão some, Deus continua sendo refúgio", ref: "Salmo 46:1", ideia: "Já agendado." },
+  { d: 13, tipo: "s", ok: true, gancho: "Davi não venceu Golias por coragem", ref: "1 Samuel 17", ideia: "Já agendado. Abre a semana que leva ao primeiro vídeo longo." },
+  { d: 14, tipo: "s", gancho: "O profeta mais corajoso da Bíblia pediu para morrer", ref: "1 Reis 19:4–8", ideia: "Elias exausto depois da vitória. Deus deu pão e sono antes de dar qualquer palavra. Cansaço não é falta de fé." },
+  { d: 15, tipo: "s", feriado: "Proclamação", gancho: "O Salmo 23 não promete uma vida sem vale", ref: "Salmo 23:4", ideia: "O pastor está no vale junto com você. A promessa é companhia, não ausência de sombra." },
+  { d: 16, tipo: "s", gancho: "José tinha o poder de se vingar. E não usou", ref: "Gênesis 50:20", ideia: "O que fizeram para o mal, Deus transformou em bem. A pior parte da sua história não é o fim dela." },
+  { d: 17, tipo: "s", gancho: "Pedro negou Jesus três vezes. Jesus perguntou três vezes", ref: "João 21:15–17", ideia: "Cada negação recebeu uma pergunta de amor. Jesus não humilha quem cai: restaura." },
+  { d: 18, tipo: "s", gancho: "Jonas não fugiu por medo", ref: "Jonas 4:2", ideia: "Ele fugiu porque sabia que Deus era misericordioso. Às vezes o problema é a graça chegando a quem a gente não quer." },
+  { d: 19, tipo: "s", gancho: "Paulo escreveu \"não andem ansiosos\" de dentro de uma prisão", ref: "Filipenses 4:6–7", ideia: "A paz que ele descreve não veio da situação mudar. Oração com gratidão no meio da crise." },
+  { d: 20, tipo: "s", feriado: "Consciência Negra", gancho: "Deus chamou de valente um homem que estava se escondendo", ref: "Juízes 6:11–12", ideia: "Gideão escondido malhando trigo. Deus vê quem você vai ser, não só o medo de agora." },
+  { d: 21, tipo: "s", gancho: "A oração mais forte da Bíblia foi feita sem voz", ref: "1 Samuel 1:13", ideia: "Ana orava só com os lábios mexendo. Deus ouve o que você não consegue dizer em voz alta." },
+  { d: 22, tipo: "l", gancho: "Davi e Golias: a história completa", ref: "1 Samuel 16–17", ideia: "1º vídeo longo (8–12 min), roteiro em Ukiyo-e que você já aprovou, ampliado: a unção de Davi, os 40 dias, o vale de Elá, as cinco pedras, a queda do gigante." },
+  { d: 22, tipo: "s", gancho: "Davi não esperou o gigante. Ele correu", ref: "1 Samuel 17:48", ideia: "Short ponte, publicado no mesmo dia do longo e apontando para ele." },
+  { d: 23, tipo: "s", gancho: "Moisés deu cinco desculpas para Deus", ref: "Êxodo 3–4", ideia: "Quem sou eu? Qual é o teu nome? Não vão crer. Não sei falar. Manda outro. Deus respondeu cada uma." },
+  { d: 24, tipo: "s", gancho: "Os amigos de Jó acertaram por sete dias. Erraram quando abriram a boca", ref: "Jó 2:13", ideia: "Presença vale mais que explicação para quem está sofrendo." },
+  { d: 25, tipo: "s", gancho: "O verso mais esperançoso da Bíblia está no livro mais triste dela", ref: "Lamentações 3:22–23", ideia: "As misericórdias se renovam toda manhã, escrito no meio das ruínas de Jerusalém." },
+  { d: 26, tipo: "s", gancho: "Rute não tinha nenhuma obrigação de ficar", ref: "Rute 1:16", ideia: "Lealdade escolhida em vez de obrigatória, e Deus escreveu a linhagem de Davi a partir dela." },
+  { d: 27, tipo: "s", gancho: "Jesus não disse \"venham os fortes\"", ref: "Mateus 11:28", ideia: "O convite é para os cansados e sobrecarregados. Você não precisa estar bem para ir." },
+  { d: 28, tipo: "s", gancho: "Deus fez Abraão esperar 25 anos", ref: "Gênesis 12:4; 21:5", ideia: "De 75 a 100 anos. A espera também faz parte da promessa. Prepara o tema do Advento." },
+  { d: 29, tipo: "l", feriado: "1º do Advento", gancho: "400 anos de silêncio: o que aconteceu antes de Jesus nascer", ref: "Malaquias → Mateus 1", ideia: "2º vídeo longo. Abre a série de Advento: profetas, império, a espera, e o anjo quebrando o silêncio." },
+  { d: 29, tipo: "s", gancho: "Antes de Jesus nascer, o céu ficou calado por 400 anos", ref: "Malaquias 4 · Lucas 1", ideia: "Short ponte do Advento, apontando para o longo." },
+  { d: 30, tipo: "s", gancho: "O anjo deixou um sacerdote mudo por duvidar", ref: "Lucas 1:18–20", ideia: "Zacarias pediu sinal e ficou sem voz até a promessa se cumprir. Fé que espera em silêncio." },
+];
+const CRONO = [
+  ["12/11 qui", "Você aprova este calendário e os 4 roteiros do lote 1 (14 a 17/11)."],
+  ["12–13/11", "Lote 1: gravuras → prancha para aprovação → vídeos → agendar 14, 15, 16 e 17/11."],
+  ["13–15/11", "Lote 2 (18 a 21/11): roteiros, gravuras e vídeos. Em paralelo, título + thumbnail do longo #1 para aprovar."],
+  ["14–16/11", "Construo o formato do vídeo longo: roteiro de 8–12 min com retomadas de gancho, capítulos, 30–40 imagens, trilha e efeitos. Roteiro do longo #1 vai para aprovação no dia 16."],
+  ["16–18/11", "Lote 3 (22 a 25/11), incluindo o Short ponte de Davi."],
+  ["17–20/11", "Produção do longo #1. Você recebe o vídeo até 20/11 para aprovar com folga."],
+  ["20–22/11", "Lote 4 (26 a 30/11). Título, thumbnail e roteiro do longo #2 (Advento) para aprovação."],
+  ["22/11 dom", "Estreia do longo #1 às 14h. Na sequência, primeiro olhar nos números do Studio (cliques, retenção, origem das visitas)."],
+  ["23–27/11", "Produção do longo #2, entrega até 27/11."],
+  ["29/11 dom", "Longo #2 às 14h e início do Advento. Revisão do mês com os dados reais para planejar dezembro."],
+];
+const DOW = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
+const MES = "11";
+const esc = (s) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const cal = document.getElementById("cal");
+let html = DOW.map((d) => `<div class="dow">${d}</div>`).join("");
+// 1º de novembro de 2026 é domingo
+for (let d = 1; d <= 30; d++) {
+  const itens = PLANO.filter((p) => p.d === d);
+  const fer = itens.find((p) => p.feriado);
+  html += `<div class="dia${d < 12 ? " passado" : ""}"><div class="n">${d}${fer ? `<small>${esc(fer.feriado)}</small>` : ""}</div>` +
+    itens.sort((a, b) => (a.tipo === "l" ? -1 : 1)).map((p) =>
+      `<div class="item${p.tipo === "l" ? " longo" : ""}${p.ok ? " ok" : ""}">${esc(p.gancho)}</div>`).join("") + `</div>`;
+}
+html += `<div class="dia passado"></div>`.repeat(5);
+cal.innerHTML = html;
+document.getElementById("lista").innerHTML = PLANO.map((p) => {
+  const dt = new Date(2026, 10, p.d), dow = DOW[dt.getDay()];
+  const hora = p.tipo === "l" ? "14h" : "18h";
+  return `<div class="linha"><div class="data">${String(p.d).padStart(2, "0")}/${MES}<span>${dow} · ${hora}</span></div>
+    <div class="corpo"><div><span class="tag ${p.tipo}">${p.tipo === "l" ? "Vídeo longo" : "Short"}</span>${p.ok ? '<span class="tag ag">Agendado</span>' : ""}<span class="ideia">${esc(p.ref)}</span></div>
+    <div class="gancho">${esc(p.gancho)}</div><div class="ideia">${esc(p.ideia)}</div></div></div>`;
+}).join("");
+document.getElementById("crono").innerHTML = CRONO.map(([q, t]) => `<div class="etapa"><div class="quando">${q}</div><div>${esc(t)}</div></div>`).join("");
+</script>
