@@ -8,5 +8,15 @@
     "publicado": false,
     "agendado_para": "2026-11-12T18:00:00-03:00",
     "upload_post_job_id": "3fdc88fe7a7a4cfda241dc6b42e3b770"
+  },
+  {
+    "data": "2026-11-11T22:50:00-03:00",
+    "formato": "tipografia",
+    "tema": "Davi e Golias (reflexão)",
+    "titulo": "Davi não venceu Golias por coragem #shorts",
+    "video": "automacao/tipografia/davi_golias/video_final.mp4",
+    "publicado": false,
+    "agendado_para": "2026-11-13T18:00:00-03:00",
+    "upload_post_job_id": "9bc87f26d036404d92d3a15116997552"
   }
 ]
