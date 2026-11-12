@@ -18,5 +18,25 @@
     "publicado": false,
     "agendado_para": "2026-11-13T18:00:00-03:00",
     "upload_post_job_id": "9bc87f26d036404d92d3a15116997552"
+  },
+  {
+    "data": "2026-11-12T09:30:00-03:00",
+    "formato": "tipografia",
+    "tema": "José (Gênesis 50:19–20)",
+    "titulo": "José tinha o poder de se vingar #shorts",
+    "video": "automacao/tipografia/jose/video_final.mp4",
+    "publicado": false,
+    "agendado_para": "2026-11-16T18:00:00-03:00",
+    "upload_post_job_id": "48e978b21e2c42188b3cd0a6df9f12e2"
+  },
+  {
+    "data": "2026-11-12T09:30:00-03:00",
+    "formato": "tipografia",
+    "tema": "Pedro (João 21:15–17)",
+    "titulo": "Pedro negou Jesus 3 vezes. Jesus perguntou 3 vezes #shorts",
+    "video": "automacao/tipografia/pedro/video_final.mp4",
+    "publicado": false,
+    "agendado_para": "2026-11-17T18:00:00-03:00",
+    "upload_post_job_id": "9749584ecbb24d4a92120cf73cec6e08"
   }
 ]
