@@ -258,15 +258,18 @@ function pastor(x, y, h, o = {}) {
   // braço de trás
   if (!o.funda) forma("pele", mapa(t, [[-9, -76], [-6, -77], [-8, -50], [-11, -51]]), COR.pele, lw * 0.8);
   // túnica
-  forma("ocre", mapa(t, [[-10, -80], [10, -80], [15, -36], [3, -34], [-14, -36]]), COR.palha, lw);
+  forma("ocre", mapa(t, [[-10, -80], [10, -80], [15, -36], [3, -34], [-14, -36]]), o.tunica || COR.palha, lw);
   // manto sobre o ombro
-  forma("azul", mapa(t, [[-11, -81], [3, -82], [-2, -64], [-13, -46], [-15, -60]]), COR.indigo, lw);
+  if (o.manto !== false) forma("azul", mapa(t, [[-11, -81], [3, -82], [-2, -64], [-13, -46], [-15, -60]]), o.manto || COR.indigo, lw);
   // faixa vermelha (o raro vermelho de Davi)
-  forma("vermelho", mapa(t, [[-11, -57], [12, -57], [12.5, -52], [-12, -52]]), COR.beni, lw * 0.7);
+  if (o.faixa !== false) forma("vermelho", mapa(t, [[-11, -57], [12, -57], [12.5, -52], [-12, -52]]), o.faixa || COR.beni, lw * 0.7);
   // bolsa de pastor
   forma("ocre", mapa(t, [[8, -56], [15, -55], [15, -45], [8, -46]]), COR.couro, lw * 0.8);
   // braço da frente
-  if (o.funda) {
+  if (o.bracosAbertos) {
+    forma("pele", mapa(t, [[7, -78], [10, -79], [24, -104], [21, -106]]), COR.pele, lw * 0.8);
+    forma("pele", mapa(t, [[-7, -78], [-10, -79], [-22, -104], [-19, -106]]), COR.pele, lw * 0.8);
+  } else if (o.funda) {
     forma("pele", mapa(t, [[7, -78], [10, -79], [22, -104], [19, -106]]), COR.pele, lw * 0.8);
     const cordao = o.girando ? [[20, -106], [30, -122], [42, -118], [38, -104], [24, -106]] : [[20, -106], [26, -96], [30, -84]];
     linha(mapa(t, cordao), lw * 0.55, { afinar: false });
@@ -283,6 +286,8 @@ function pastor(x, y, h, o = {}) {
   // cabelo cacheado (de costas cobre a cabeça toda)
   forma("chave", mapa(t, costas ? cab : [[cx - 7.5, cy + 4], [cx - 8, cy - 4], [cx - 4, cy - 9], [cx + 3, cy - 9.5], [cx + 7.5, cy - 5], [cx + 3, cy - 4], [cx - 1, cy - 2], [cx - 2, cy + 5]]), COR.sumi, 0);
   if (!costas) linha(mapa(t, [[cx + 3, cy - 1], [cx + 5.5, cy - 1.3]]), lw * 0.6, { liso: false });
+  if (o.barba && !costas) forma("chave", mapa(t, [[cx - 1, cy + 2], [cx + 7, cy + 2], [cx + 5, cy + 9], [cx + 1, cy + 9]]), COR.sumi, 0);
+  if (o.veu) forma("chave", mapa(t, [[cx - 8, cy + 9], [cx - 8.5, cy - 5], [cx - 3, cy - 10.5], [cx + 4, cy - 10], [cx + 6, cy - 6], [cx - 2, cy - 5], [cx - 4, cy + 10]]), o.veu, 0);
 }
 
 function gigante(x, y, h, o = {}) {

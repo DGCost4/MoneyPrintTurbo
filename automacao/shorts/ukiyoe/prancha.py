@@ -9,7 +9,7 @@ TW, TH, cols = 360, 640, 4
 rows = (len(cenas) + cols - 1) // cols
 S = Image.new("RGB", (cols * (TW + 20) + 20, 90 + rows * (TH + 140)), (24, 20, 18))
 d = ImageDraw.Draw(S)
-d.text((20, 26), "Davi e Golias · gravuras de fundo (Ukiyo-e)", font=f2, fill=(238, 226, 198))
+d.text((20, 26), sys.argv[4] if len(sys.argv) > 4 else "Gravuras de fundo (Ukiyo-e)", font=f2, fill=(238, 226, 198))
 for i, c in enumerate(cenas):
     x, y = 20 + (i % cols) * (TW + 20), 90 + (i // cols) * (TH + 140)
     im = Image.open(os.path.join(pasta, c["id"] + ".png")).convert("RGB").resize((TW, TH), Image.LANCZOS)
