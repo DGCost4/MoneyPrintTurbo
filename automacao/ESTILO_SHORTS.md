@@ -69,7 +69,7 @@ Padrão oficial de todos os Shorts do canal. Referência viva: **Davi e Golias**
   (`automacao/tipografia/narrar.py`).
 - **Trilha:** original, gerada no ElevenLabs Music (instrumental, sem voz), clima japonês:
   shakuhachi, shamisen, koto e taiko em batida de coração que cresce até ~75% e resolve
-  calma. Duração = vídeo + 1 s. Mixada bem abaixo da voz (`--vol-musica 0.12`; a narração sempre na frente).
+  calma. Duração = vídeo + 1 s. Mixada bem abaixo da voz (`--vol-musica 0.18`; a narração sempre na frente).
 - **Efeitos** (`automacao/tipografia/sfx/`): impacto pesado/médio, clique, whoosh, racha,
   explosão de luz, corte, fechamento, braam, **taiko** nas batidas fortes e **pergaminho** em
   cada troca de cena.
@@ -85,7 +85,7 @@ node automacao/shorts/ukiyoe/desenhar.js automacao/shorts/ukiyoe/cenas_<tema>.js
 python3 automacao/shorts/ukiyoe/prancha.py automacao/shorts/<tema>/imagens automacao/shorts/<tema>/cenas.json automacao/shorts/<tema>/prancha.jpg
 # 4. coreografia em automacao/tipografia/<tema>/coreografia.js (partir de davi_golias/)
 # 5. render 1080x1920 30 fps + mixagem
-cd automacao/tipografia && node renderizar.js <tema> --fps=30 --musica <tema>/musica.mp3 --vol-musica 0.12
+cd automacao/tipografia && node renderizar.js <tema> --fps=30 --musica <tema>/musica.mp3 --vol-musica 0.18
 ffmpeg -i <tema>/video.mp4 -c:v libx264 -preset slow -crf 23 -c:a copy -movflags +faststart <tema>/video_final.mp4
 ```
 
