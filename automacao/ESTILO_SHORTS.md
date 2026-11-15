@@ -101,3 +101,17 @@ ffmpeg -i <tema>/video.mp4 -c:v libx264 -preset slow -crf 23 -c:a copy -movflags
   `upload_post_job_id`).
 - Evitar produção em massa repetitiva (política de conteúdo inautêntico do YouTube): cada
   Short tem roteiro próprio e gravuras próprias.
+
+## 6. Aprendizados dos dados (Studio, 15/11/2026)
+| Short | Duração | Views | Média assistida | Inscritos |
+|---|---|---|---|---|
+| O que fazer quando Deus parece em silêncio? (formato antigo) | 52 s | 1.200 | ~37% | +17 |
+| O profeta que pediu pra morrer (gravuras, Carla) | 43 s | 1.069 | ~49% | +10 |
+| Davi não venceu Golias por coragem (gravuras, Will) | 48 s | 739 | ~37% | +5 |
+| Quando o chão some… Salmo 46:1 (só tipografia) | 33 s | 247 | ~18% | +2 |
+
+Regras que saíram daí:
+1. **Primeiro quadro = gancho em letra grande sobre gravura com cena.** Tipografia sobre fundo liso perde a pessoa em ~6 s.
+2. **30 a 38 s** (≈ 70 palavras, voz a 1.08). Acima de 40 s a média assistida cai para ~37%.
+3. **Tema = dor real, em pergunta ou contradição** (silêncio de Deus, cansaço, ansiedade, espera, recomeço). É o que mais converte em inscritos.
+4. **Título sem referência bíblica** (a referência vai na tela e na descrição).
