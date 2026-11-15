@@ -15,7 +15,7 @@ const SC = (() => {
   const fim = () => PALAVRAS[PALAVRAS.length - 1][2];
 
   // ------------------------------------------------------------ fundo
-  const IMG = {}, cam = { punch: 0 };
+  const IMG = {}, cam = { punch: 0 }, grade = { p: 0 };
   let CENAS = [], DUR = 60;
   const PASSO = 0.55, FOLGA = 70;
   const eio = (p) => (p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2);
@@ -95,8 +95,22 @@ const SC = (() => {
       g.addColorStop(0, `rgba(8,6,10,${0.28 * e})`); g.addColorStop(0.35, `rgba(8,6,10,${0.52 * e})`);
       g.addColorStop(0.7, `rgba(8,6,10,${0.52 * e})`); g.addColorStop(1, `rgba(8,6,10,${0.3 * e})`);
       ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+      // arco de cor: dor em vermelho escuro -> esperança em luz dourada
+      const p = grade.p;
+      if (p < 1) { ctx.save(); ctx.globalCompositeOperation = "multiply"; ctx.fillStyle = `rgba(255,120,105,${0.55 * (1 - p)})`; ctx.fillRect(0, 0, W, H); ctx.restore(); }
+      if (p > 0) {
+        ctx.save(); ctx.globalCompositeOperation = "screen";
+        const lg = ctx.createRadialGradient(W / 2, H * 0.3, 0, W / 2, H * 0.3, H * 0.9);
+        lg.addColorStop(0, `rgba(255,205,120,${0.34 * p})`); lg.addColorStop(1, `rgba(255,170,60,${0.08 * p})`);
+        ctx.fillStyle = lg; ctx.fillRect(0, 0, W, H); ctx.restore();
+      }
     };
     cenas.slice(1).forEach((c) => sfx(c.t - 0.05, "pergaminho", 0.7));
+  }
+  // a virada: as cores passam da dor para a esperança entre t0 e t1
+  function virada(t0, t1) {
+    tl.set(grade, { p: 0 }, Math.max(0, t0 - 0.01));
+    tl.to(grade, { p: 1, duration: Math.max(0.4, t1 - t0), ease: "power1.inOut" }, t0);
   }
   function punch(t0, amt = 0.05) {
     tl.set(cam, { punch: amt }, t0);
@@ -119,5 +133,5 @@ const SC = (() => {
     pop(word(cta, { width: COL * 0.86, center: true }), tCta, 1430, { ganho: 0.5 });
     pop(word(ref, { width: COL * 0.62, center: true, alpha: 0.7 }), tRef, 1500, { ganho: 0.4 });
   }
-  return { i, t, a, T, fim, fundo, punch, fixo, pops, grande, fecho, COL };
+  return { i, t, a, T, fim, fundo, punch, virada, fixo, pops, grande, fecho, COL };
 })();

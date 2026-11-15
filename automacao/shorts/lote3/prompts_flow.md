@@ -32,7 +32,7 @@ Young shepherd David, dark curly hair, ochre tunic with a red sash, running towa
 ```
 **davi_c4**
 ```
-Close-up of young David's determined face, sling whirling above his head, a large red sun rising behind him, wind in his hair.
+Close-up of young David's determined face, sling whirling above his head, a large golden sun rising behind him, warm golden light, wind in his hair.
 ```
 
 ## 23/11 · Moisés · "Você acha que não é capaz?"
@@ -50,7 +50,7 @@ Moses raising his hands helplessly as if making excuses, staff leaning on his sh
 ```
 **moises_c4**
 ```
-Moses walking with his staff along a desert road toward Egypt at dawn, determined expression, distant pyramids and a red sun on the horizon.
+Moses walking with his staff along a desert road toward Egypt at dawn, determined expression, distant pyramids and a golden sun on the horizon, warm golden light.
 ```
 
 ## 24/11 · Jó · "Quando alguém tenta explicar a sua dor"
@@ -68,7 +68,7 @@ Job's three friends standing and arguing, pointing their fingers at him, while J
 ```
 **jo_c4**
 ```
-At dawn, a friend sitting quietly beside a grieving man with a hand on his shoulder, two small figures on a hillside, soft pale light, peaceful.
+At dawn, a friend sitting quietly beside a grieving man with a hand on his shoulder, two small figures on a hillside, soft warm golden light, peaceful.
 ```
 
 ## 25/11 · Lamentações · "Quando tudo desabou"
@@ -86,5 +86,5 @@ The prophet Jeremiah sitting alone on fallen stones of the ruined city, writing 
 ```
 **lamentacoes_c4**
 ```
-First light of dawn over the ruins of Jerusalem, a red rising sun, a small green sprout growing between the broken stones in the foreground, hope.
+First light of dawn over the ruins of Jerusalem, a golden rising sun and warm golden light, a small green sprout growing between the broken stones in the foreground, hope.
 ```

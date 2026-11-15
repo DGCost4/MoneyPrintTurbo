@@ -49,8 +49,11 @@ Padrão oficial de todos os Shorts do canal. Referência viva: **Davi e Golias**
 
 ### Tipografia cinética (motor `automacao/tipografia/motor.js`)
 - Fonte do canal: **Be Vietnam Pro Bold**, caixa alta, branco com sombra escura.
-- **Uma única palavra em vermelho pimenta** (`#FF2A1A`) no vídeo inteiro: a palavra-tese
-  (ex.: SENHOR).
+- **Arco de cor: da dor à esperança.** As palavras da dor ficam em **vermelho pimenta**
+  (`#FF2A1A`) e o fundo começa levemente avermelhado e escuro; na virada (quando entra Deus) a
+  cor passa aos poucos para **luz dourada** (`SC.virada(t0, t1)`), e a palavra-tese da
+  esperança fica em **dourado** (`COR.esperanca`, `#F6B93B`). Nunca "prosperidade": o dourado
+  é luz, glória e presença de Deus.
 - Entradas `power4.out`, saídas `expo.out`. Cada palavra **cai na sílaba falada**
   (sincronizada pelos tempos da narração).
 - **Primeiro quadro já mostra o gancho em letra grande** (vira thumbnail e funciona no mudo).

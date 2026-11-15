@@ -3,10 +3,10 @@
 const { t, a, COL } = SC;
 DURACAO = SC.fim() + 2.2;
 function acento(txt, palavra, n, y, w) {
-  const wd = SC.grande(txt, a(palavra, n), y, w, "pesado", { cor: COR.destaque, from: 1500, dur: 0.46 });
+  const wd = SC.grande(txt, a(palavra, n), y, w, "pesado", { cor: COR.esperanca, from: 1500, dur: 0.46 });
   const t0 = t(palavra, n);
   sfx(t0 + 0.05, "braam", 0.9); flash(t0 + 0.04, 0.3, 0.7); SC.punch(t0 + 0.04, 0.08);
-  anel(t0 + 0.04, W / 2, y, 1100, "255,90,50");
+  anel(t0 + 0.04, W / 2, y, 1100, "255,205,110");
   return wd;
 }
 SC.fundo("../shorts/lote2/imagens/", [
@@ -40,4 +40,6 @@ SC.fundo("../shorts/lote2/imagens/", [
   SC.grande("QUEM VOCÊ VAI SER.", a("ser"), 1200);
   sair(vs, t("ser"), "cima", { stagger: 0.02, som: false });
   SC.fecho("COMENTA “VALENTE”", "JUÍZES 6:11–16  ·  SALMO E PIMENTA", a("comenta"), t("valente", 2));
+  l1[0].color = COR.destaque; md.color = COR.destaque;
+  SC.virada(t("anjo") - 0.2, t("valente", 1));
 }

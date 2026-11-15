@@ -3,10 +3,10 @@
 const { t, a, COL } = SC;
 DURACAO = SC.fim() + 2.2;
 function acento(txt, palavra, n, y, w) {
-  const wd = SC.grande(txt, a(palavra, n), y, w, "pesado", { cor: COR.destaque, from: 1500, dur: 0.46 });
+  const wd = SC.grande(txt, a(palavra, n), y, w, "pesado", { cor: COR.esperanca, from: 1500, dur: 0.46 });
   const t0 = t(palavra, n);
   sfx(t0 + 0.05, "braam", 0.9); flash(t0 + 0.04, 0.3, 0.7); SC.punch(t0 + 0.04, 0.08);
-  anel(t0 + 0.04, W / 2, y, 1100, "255,90,50");
+  anel(t0 + 0.04, W / 2, y, 1100, "255,205,110");
   return wd;
 }
 SC.fundo("../shorts/lote2/imagens/", [
@@ -40,4 +40,6 @@ SC.fundo("../shorts/lote2/imagens/", [
   sair(pa, t("veio", 2) - 0.2, "baixo", { stagger: 0.02, som: false });
   SC.grande("VEIO DENTRO DELA.", a("dentro", 2), 1250, COL, "medio");
   SC.fecho("COMENTA “PAZ”", "FILIPENSES 4:6–7  ·  SALMO E PIMENTA", a("comenta"), t("hoje"));
+  l1[1].color = COR.destaque; an.color = COR.destaque;
+  SC.virada(t("orem"), t("paz", 1));
 }

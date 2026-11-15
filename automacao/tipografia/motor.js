@@ -3,7 +3,7 @@
 // quadro a quadro pelo renderizador. Entradas: power4.out. Saídas: expo.out.
 /* global gsap */
 const W = 1080, H = 1920;
-const COR = { fundo: "#070304", texto: "#ffffff", destaque: "#FF2A1A" };
+const COR = { fundo: "#070304", texto: "#ffffff", destaque: "#FF2A1A", esperanca: "#F6B93B" };
 const IN = "power4.out", OUT = "expo.out";
 const LAND = 0.11;                 // instante em que o power4.out "toca" o destino
 const FAMILIA = "Vietnam", PESO = 700;
@@ -258,6 +258,7 @@ function drawWord(c, wd, alphaMul = 1) {
   setFont(c, wd.s);
   c.fillStyle = wd.color;
   if (wd.color === COR.destaque) { c.shadowColor = "rgba(255,40,20,0.85)"; c.shadowBlur = 38; }
+  if (wd.color === COR.esperanca) { c.shadowColor = "rgba(255,200,90,0.9)"; c.shadowBlur = 44; }
   if (wd.shT > 0 && wd.shards) {               // cacos
     const T = wd.shT;
     c.globalAlpha = a * Math.max(0, 1 - T / 1.4);
