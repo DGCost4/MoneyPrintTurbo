@@ -58,5 +58,35 @@
     "publicado": false,
     "agendado_para": "2026-11-15T18:00:00-03:00",
     "upload_post_job_id": "f53b8147986741ce899f049018e8497c"
+  },
+  {
+    "data": "2026-11-15T19:20:00-03:00",
+    "formato": "tipografia",
+    "tema": "jonas",
+    "titulo": "Quando Deus abençoa quem te machucou #shorts",
+    "video": "automacao/tipografia/jonas/video_final.mp4",
+    "publicado": false,
+    "agendado_para": "2026-11-18T18:00:00-03:00",
+    "upload_post_job_id": "19b6e146a6684cbf861404cb85f630d9"
+  },
+  {
+    "data": "2026-11-15T19:20:00-03:00",
+    "formato": "tipografia",
+    "tema": "paulo",
+    "titulo": "A ansiedade não te deixa dormir? #shorts",
+    "video": "automacao/tipografia/paulo/video_final.mp4",
+    "publicado": false,
+    "agendado_para": "2026-11-19T18:00:00-03:00",
+    "upload_post_job_id": "ba750c46a6cc4af58efad07369ff770f"
+  },
+  {
+    "data": "2026-11-15T19:20:00-03:00",
+    "formato": "tipografia",
+    "tema": "gideao",
+    "titulo": "Você se sente fraco demais para o que a vida te pede? #shorts",
+    "video": "automacao/tipografia/gideao/video_final.mp4",
+    "publicado": false,
+    "agendado_para": "2026-11-20T18:00:00-03:00",
+    "upload_post_job_id": "87c5d27d68b84bc78f28275886268313"
   }
 ]
