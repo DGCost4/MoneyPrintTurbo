@@ -93,5 +93,55 @@
     "agendado_para": "2026-11-20T18:00:00-03:00",
     "upload_post_job_id": "87c5d27d68b84bc78f28275886268313",
     "agendamento": "cancelado no Upload-Post em 15/11; usuário agenda pelo YouTube Studio"
+  },
+  {
+    "data": "2026-11-15T21:00:00-03:00",
+    "formato": "tipografia",
+    "tema": "jose",
+    "titulo": "José tinha o poder de se vingar #shorts",
+    "video": "automacao/tipografia/jose/video_final.mp4",
+    "publicado": false,
+    "agendado_para": "2026-11-16T18:00:00-03:00",
+    "upload_post_job_id": "648f28fdec9d4e81a7ec9d11b878a190"
+  },
+  {
+    "data": "2026-11-15T21:00:00-03:00",
+    "formato": "tipografia",
+    "tema": "pedro",
+    "titulo": "Pedro negou Jesus 3 vezes. Jesus perguntou 3 vezes #shorts",
+    "video": "automacao/tipografia/pedro/video_final.mp4",
+    "publicado": false,
+    "agendado_para": "2026-11-17T18:00:00-03:00",
+    "upload_post_job_id": "f530bbba01774cfb83fda918d1841aa8"
+  },
+  {
+    "data": "2026-11-15T21:00:00-03:00",
+    "formato": "tipografia",
+    "tema": "jonas",
+    "titulo": "Quando Deus abençoa quem te machucou #shorts",
+    "video": "automacao/tipografia/jonas/video_final.mp4",
+    "publicado": false,
+    "agendado_para": "2026-11-18T18:00:00-03:00",
+    "upload_post_job_id": "5dd9ca9374e14b2bb6720f344f69a7b3"
+  },
+  {
+    "data": "2026-11-15T21:00:00-03:00",
+    "formato": "tipografia",
+    "tema": "paulo",
+    "titulo": "A ansiedade não te deixa dormir? #shorts",
+    "video": "automacao/tipografia/paulo/video_final.mp4",
+    "publicado": false,
+    "agendado_para": "2026-11-19T18:00:00-03:00",
+    "upload_post_job_id": "fa7ba9a2ea5b48c391d9431580801263"
+  },
+  {
+    "data": "2026-11-15T21:00:00-03:00",
+    "formato": "tipografia",
+    "tema": "gideao",
+    "titulo": "Você se sente fraco demais para o que a vida te pede? #shorts",
+    "video": "automacao/tipografia/gideao/video_final.mp4",
+    "publicado": false,
+    "agendado_para": "2026-11-20T18:00:00-03:00",
+    "upload_post_job_id": "9dc4f43c22e84abca0bea3863a111668"
   }
 ]
