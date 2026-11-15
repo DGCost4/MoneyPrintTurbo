@@ -27,7 +27,8 @@
     "video": "automacao/tipografia/jose/video_final.mp4",
     "publicado": false,
     "agendado_para": "2026-11-16T18:00:00-03:00",
-    "upload_post_job_id": "48e978b21e2c42188b3cd0a6df9f12e2"
+    "upload_post_job_id": "48e978b21e2c42188b3cd0a6df9f12e2",
+    "agendamento": "cancelado no Upload-Post em 15/11; usuário agenda pelo YouTube Studio"
   },
   {
     "data": "2026-11-12T09:30:00-03:00",
@@ -37,7 +38,8 @@
     "video": "automacao/tipografia/pedro/video_final.mp4",
     "publicado": false,
     "agendado_para": "2026-11-17T18:00:00-03:00",
-    "upload_post_job_id": "9749584ecbb24d4a92120cf73cec6e08"
+    "upload_post_job_id": "9749584ecbb24d4a92120cf73cec6e08",
+    "agendamento": "cancelado no Upload-Post em 15/11; usuário agenda pelo YouTube Studio"
   },
   {
     "data": "2026-11-12T09:45:00-03:00",
@@ -67,7 +69,8 @@
     "video": "automacao/tipografia/jonas/video_final.mp4",
     "publicado": false,
     "agendado_para": "2026-11-18T18:00:00-03:00",
-    "upload_post_job_id": "19b6e146a6684cbf861404cb85f630d9"
+    "upload_post_job_id": "19b6e146a6684cbf861404cb85f630d9",
+    "agendamento": "cancelado no Upload-Post em 15/11; usuário agenda pelo YouTube Studio"
   },
   {
     "data": "2026-11-15T19:20:00-03:00",
@@ -77,7 +80,8 @@
     "video": "automacao/tipografia/paulo/video_final.mp4",
     "publicado": false,
     "agendado_para": "2026-11-19T18:00:00-03:00",
-    "upload_post_job_id": "ba750c46a6cc4af58efad07369ff770f"
+    "upload_post_job_id": "ba750c46a6cc4af58efad07369ff770f",
+    "agendamento": "cancelado no Upload-Post em 15/11; usuário agenda pelo YouTube Studio"
   },
   {
     "data": "2026-11-15T19:20:00-03:00",
@@ -87,6 +91,7 @@
     "video": "automacao/tipografia/gideao/video_final.mp4",
     "publicado": false,
     "agendado_para": "2026-11-20T18:00:00-03:00",
-    "upload_post_job_id": "87c5d27d68b84bc78f28275886268313"
+    "upload_post_job_id": "87c5d27d68b84bc78f28275886268313",
+    "agendamento": "cancelado no Upload-Post em 15/11; usuário agenda pelo YouTube Studio"
   }
 ]
