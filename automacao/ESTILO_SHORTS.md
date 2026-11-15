@@ -118,3 +118,12 @@ Regras que saíram daí:
 2. **30 a 38 s** (≈ 70 palavras, voz a 1.08). Acima de 40 s a média assistida cai para ~37%.
 3. **Tema = dor real, em pergunta ou contradição** (silêncio de Deus, cansaço, ansiedade, espera, recomeço). É o que mais converte em inscritos.
 4. **Título sem referência bíblica** (a referência vai na tela e na descrição).
+
+## 7. Imagens pelo Google Flow + Google Drive (desde o lote 3)
+- As imagens dos Shorts são geradas pelo usuário no **Google Flow** (estilo Ukiyo-e com rostos
+  expressivos), a partir de prompts que eu escrevo (`automacao/shorts/<lote>/prompts_flow.md`).
+- **Ao aprovar os roteiros de um lote, eu crio no Google Drive uma pasta por vídeo** dentro de
+  `SalmoePimenta` (id `1MJ70drOowRSlfyBR04jBlYnVSv4hkGMG`), no padrão do usuário:
+  **`DDMM - Personagem · Título`** (ex.: `2211 - Davi · Quando o medo te paralisa`).
+- O usuário coloca as imagens (ou um .zip) na pasta; eu baixo pelo conector do Drive, associo
+  cada imagem à cena pelo nome do arquivo e ajusto para 1080×1920.

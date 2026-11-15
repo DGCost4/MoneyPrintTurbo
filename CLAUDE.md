@@ -5,6 +5,8 @@ Este repositório produz os vídeos do canal cristão **Salmo e Pimenta** (YouTu
 - **Shorts:** seguir sempre `automacao/ESTILO_SHORTS.md` (reflexão com gancho viral,
   tipografia cinética sobre gravuras Ukiyo-e animadas, voz Will do ElevenLabs).
   Referência: `automacao/tipografia/davi_golias/`.
+- **Imagens:** a cada lote aprovado, criar no Google Drive (pasta `SalmoePimenta`) uma pasta por
+  vídeo no padrão `DDMM - Personagem · Título`, para o usuário colocar as imagens do Google Flow.
 - **Vídeos longos:** a história bíblica narrada como apresentação: muitas imagens, trilha e
   efeitos sonoros, palavras animadas só nos momentos-chave.
 - **Nunca publicar nem agendar sem aprovação explícita do usuário na conversa.** Pedir para
