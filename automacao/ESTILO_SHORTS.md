@@ -23,8 +23,9 @@ Padrão oficial de todos os Shorts do canal. Referência viva: **Davi e Golias**
      ansiedade, porta fechada).
   5. **Fecho + verso:** a frase-tese (ex.: "a batalha é do Senhor") e uma ordem curta
      ("Para de medir o gigante. Mede quem luta por você.").
-  6. **Chamada para comentar** que gere conversa ("Comenta o nome do seu gigante, que a gente
-     ora junto."), não só "se inscreve".
+  6. **Chamada para comentar, sempre neste formato (desde o lote 4):**
+     **Comenta "[palavra]" se essa mensagem te tocou.** A palavra vem do tema do vídeo
+     (ex.: "descanso", "eu vou", "amém").
 - **Fidelidade bíblica:** fatos conferidos no texto; falas e versos em **paráfrase**, com a
   referência (livro cap:vers) na tela e na descrição. Nunca inventar citação.
 - Roteiro vai para aprovação do usuário **antes** de produzir.
