@@ -12,6 +12,6 @@ ff.stdin.end();await new Promise(r=>ff.on("close",r));await b.close();
 const ent=[],fil=[],lab=[];ev.forEach((e,k)=>{const[n,m]=e.nome.split("@");const arq=path.join(SFX,n+".mp3");
  let off=0;if(m==="pico"){const raw=execFileSync("ffmpeg",["-v","error","-i",arq,"-ac","1","-ar","8000","-f","s16le","-"]);let mx=0,im=0;for(let i=0;i<raw.length/2;i++){const v=Math.abs(raw.readInt16LE(i*2));if(v>mx){mx=v;im=i}}off=im/8000;}
  ent.push("-i",arq);const ms=Math.max(0,Math.round((e.t-off)*1000));fil.push(`[${k+1}:a]aresample=48000,volume=${e.ganho},adelay=${ms}|${ms}[s${k}]`);lab.push(`[s${k}]`);});
-fil.push(`${lab.join("")}amix=inputs=${lab.length}:normalize=0,atrim=0:${dur},afade=t=out:st=${dur-.4}:d=.4,alimiter=limit=0.89,loudnorm=I=-14:TP=-1[a]`);
+fil.push(`${lab.join("")}amix=inputs=${lab.length}:normalize=0,atrim=0:${dur},afade=t=out:st=${(dur-0.4).toFixed(2)}:d=0.4,alimiter=limit=0.89,loudnorm=I=-14:TP=-1[a]`);
 execFileSync("ffmpeg",["-y","-loglevel","error","-i",path.join(A,"_v.mp4"),...ent,"-filter_complex",fil.join(";"),"-map","0:v","-map","[a]","-c:v","copy","-c:a","aac","-b:a","192k","-shortest",path.join(A,"vinheta.mp4")]);
 console.log("ok");})();
