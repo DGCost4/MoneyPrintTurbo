@@ -1,0 +1,114 @@
+// Telas especiais: legenda da abertura, título, vinheta, cartelas, manuscrito, mito e encerramento.
+function legenda(frase, { destaque = [], depois, ate } = {}) {
+  const ts = tempos(frase, depois), pal = frase.split(/\s+/).filter((s) => norm(s)), D = destaque.map(norm);
+  const t0 = ts[0] - 0.1, t1 = ate ?? TF(frase, depois) + 0.5;
+  over(t0, t1, (t) => {
+    const a = env(t, t0, t1, 0.2, 0.3), tam = 58;
+    const g = x.createLinearGradient(0, H - 330, 0, H); g.addColorStop(0, "rgba(0,0,0,0)"); g.addColorStop(1, `rgba(0,0,0,${0.7 * a})`); x.fillStyle = g; x.fillRect(0, H - 330, W, 330);
+    x.save(); x.font = `700 ${tam}px V`; const esp = x.measureText(" ").width; x.restore();
+    const linhas = [[]]; let lw = 0;
+    pal.forEach((p, i) => { const w = largura(p, tam); if (lw + w > 1500 && linhas.at(-1).length) { linhas.push([]); lw = 0; } linhas.at(-1).push([p, w, i]); lw += w + esp; });
+    linhas.forEach((ln, li) => {
+      const tot = ln.reduce((s, [, w]) => s + w, 0) + esp * (ln.length - 1); let X = W / 2 - tot / 2; const Y = H - 150 - (linhas.length - 1 - li) * tam * 1.2;
+      for (const [p, w, i] of ln) { const q = cl((t - ts[i] + 0.05) / 0.2); const dest = D.includes(norm(p));
+        txt(p, X + w / 2, Y, { tam, cor: dest ? COR.vermelho : COR.creme, a: a * (0.25 + 0.75 * q) }); X += w + esp; }
+    });
+  }, 4);
+}
+function titulo(t0, dur) {
+  const t1 = t0 + dur; sfx(t0, "braam@pico", 0.6); sfx(t0 + 0.1, "fogo_monte", 0.35, { dur: 3.4 });
+  over(t0, t1 + 0.3, (t) => {
+    const a = env(t, t0, t1 + 0.3, 0.3, 0.5), p = ease.o4(cl((t - t0) / 1.2));
+    x.save(); x.globalAlpha = a; x.fillStyle = "rgba(8,5,4,.6)"; x.fillRect(0, 0, W, H);
+    x.translate(W / 2, 520); x.scale(lerp(1.15, 1, p), lerp(1.15, 1, p));
+    txt("ELIAS", 0, 0, { tam: 230, esp: lerp(60, 30, p), cor: COR.creme, a: p });
+    x.fillStyle = COR.vermelho; x.fillRect(-260 * p, 50, 520 * p, 6);
+    txt("DO FOGO AO DESERTO", 0, 130, { tam: 50, esp: 16, cor: COR.ouro, a: cl((t - t0 - 0.5) / 0.6) });
+    x.restore();
+  }, 5);
+}
+function vinheta(t0, dur) {
+  sfx(t0, "VINHETA", 1);
+  const o = { t0, t1: t0 + dur, camada: 9, clipe: "vinheta", n: 175, desenha: (t) => { const im = quadroClipe("vinheta", Math.min(175, 1 + Math.floor((t - t0) * FPS))); if (im.complete) x.drawImage(im, 0, 0, W, H); } };
+  L.over.push(o);
+}
+const ROMANO = ["", "I", "II", "III", "IV"];
+function cartela(t0, dur, n, nome) {
+  const t1 = t0 + dur; sfx(t0, "taiko", 0.55); sfx(t0 + 0.05, "transicao", 0.5);
+  over(t0 - 0.3, t1 + 0.4, (t) => {
+    const a = env(t, t0 - 0.3, t1 + 0.4, 0.35, 0.5), p = ease.o4(cl((t - t0) / 0.9));
+    x.save(); x.globalAlpha = a; x.fillStyle = "rgba(14,9,7,.82)"; x.fillRect(0, 0, W, H);
+    txt(`CAPÍTULO ${ROMANO[n]}`, W / 2, 470, { tam: 40, esp: 18, cor: COR.ouro, a: p });
+    x.fillStyle = COR.vermelho; x.fillRect(W / 2 - 140 * p, 505, 280 * p, 5);
+    txt(nome.toUpperCase(), W / 2, 640 + (1 - p) * 40, { tam: 140, esp: 14, a: cl((t - t0 - 0.15) / 0.6) });
+    x.restore();
+  }, 6);
+}
+// manuscrito: pergaminho, a pena escreve a frase (destaque em vermelho)
+function manuscrito(t0, t1, linhas, { ref = "", tEscrita } = {}) {
+  sfx(t0, "mapa", 0.6); sfx(t0 + 0.5, "pena", 0.8, { dur: 4 });
+  const total = linhas.reduce((s, l) => s + l[0].length, 0), vel = total / (tEscrita || 3.2);
+  over(t0, t1, (t) => {
+    const a = env(t, t0, t1, 0.5, 0.5); x.save(); x.globalAlpha = a;
+    const im = IMG.pergaminho, z = 1.12 + 0.05 * cl((t - t0) / (t1 - t0));
+    pintaImagem(im, im.naturalWidth, im.naturalHeight, z, 0.42, 0.6);
+    x.fillStyle = "rgba(0,0,0,.15)"; x.fillRect(0, 0, W, H);
+    let n = Math.floor((t - t0 - 0.6) * vel), Y = 440, ponta = [800, 440];
+    for (const [s, cor] of linhas) {
+      const vis = s.slice(0, Math.max(0, n)); n -= s.length;
+      x.font = "700 92px Charm"; x.textAlign = "left"; x.fillStyle = cor || "#3a2414"; const X0 = 800;
+      x.fillText(vis, X0, Y); if (vis.length) ponta = [X0 + x.measureText(vis).width, Y];
+      Y += 120;
+    }
+    if (ref) txt(ref, 1400, Y + 10, { tam: 30, cor: "rgba(90,50,20,.8)", esp: 4, sombra: 0, a: cl((t - t0 - 0.6 - total / vel) / 0.6) });
+    // pena vetorial: a ponta segue o fim do texto
+    const escrevendo = (t - t0 - 0.6) * vel < total, mv = escrevendo ? Math.sin(t * 38) * 5 : 0;
+    x.save(); x.translate(ponta[0] + 6 + mv, ponta[1] - 6 - (escrevendo ? Math.abs(Math.sin(t * 19)) * 6 : 26)); x.rotate(-0.85);
+    x.fillStyle = "rgba(0,0,0,.18)"; x.beginPath(); x.ellipse(170, 40, 190, 26, 0, 0, 7); x.fill();
+    x.fillStyle = "#2a1a10"; x.beginPath(); x.moveTo(0, 0); x.lineTo(46, -7); x.lineTo(46, 7); x.closePath(); x.fill();
+    x.fillStyle = "#f3ead8"; x.beginPath(); x.moveTo(40, 0); x.bezierCurveTo(120, -46, 280, -58, 380, -20); x.bezierCurveTo(300, 10, 150, 28, 40, 0); x.fill();
+    x.fillStyle = "#d9cbb0"; x.beginPath(); x.moveTo(60, 2); x.bezierCurveTo(160, 22, 300, 8, 380, -20); x.bezierCurveTo(280, 30, 140, 30, 60, 2); x.fill();
+    x.strokeStyle = "#a8957a"; x.lineWidth = 3; x.beginPath(); x.moveTo(40, 0); x.quadraticCurveTo(220, -14, 390, -22); x.stroke();
+    x.restore();
+    x.restore();
+  }, 7);
+}
+// "mito": lista que vai sendo riscada e carimbo MITO
+function mito(t0, t1, pergunta, itens, tCarimbo) {
+  over(t0, t1, (t) => {
+    const a = env(t, t0, t1, 0.4, 0.5);
+    x.save(); x.globalAlpha = a; x.fillStyle = "rgba(10,7,5,.78)"; x.fillRect(0, 0, W, H);
+    txt(pergunta, W / 2, 260, { tam: 62, esp: 2, cor: COR.ouro });
+    itens.forEach(([s, ti], i) => {
+      const q = ease.o4(cl((t - ti) / 0.4)), Y = 430 + i * 130;
+      if (q <= 0) return;
+      txt("✗", 640, Y, { tam: 80, cor: COR.vermelho, a: q });
+      txt(s, 720, Y - 4, { tam: 64, alin: "left", a: q });
+      const r = cl((t - ti - 0.5) / 0.4); if (r > 0) { x.fillStyle = COR.vermelho; x.fillRect(715, Y - 26, (largura(s, 64) + 10) * r, 7); }
+    });
+    x.restore();
+  }, 6);
+  carimbo(tCarimbo, t1, "MITO", { X: 1420, Y: 820, rot: -0.14, tam: 120 });
+}
+function encerramento(t0, t1, palavra, tPal) {
+  over(tPal, t1, (t) => {
+    const a = env(t, tPal, t1, 0.4, 0.6), p = ease.back(cl((t - tPal) / 0.6));
+    x.save(); x.globalAlpha = a;
+    const g = x.createLinearGradient(0, H - 380, 0, H); g.addColorStop(0, "rgba(0,0,0,0)"); g.addColorStop(1, "rgba(0,0,0,.75)"); x.fillStyle = g; x.fillRect(0, H - 380, W, 380);
+    txt("COMENTA", W / 2, H - 200, { tam: 44, esp: 14, cor: COR.creme });
+    x.translate(W / 2, H - 100); x.scale(p, p); txt(`“${palavra.toUpperCase()}”`, 0, 0, { tam: 110, esp: 8, cor: COR.ouro });
+    x.restore();
+  }, 6);
+  sfx(tPal, "anjo", 0.5);
+}
+function fim(t0, t1) {
+  sfx(t0, "transicao", 0.5);
+  over(t0, t1, (t) => {
+    const a = env(t, t0, t1, 0.8, 0.01), p = ease.o4(cl((t - t0 - 0.4) / 0.8));
+    x.save(); x.globalAlpha = a; x.fillStyle = "#120a0c"; x.fillRect(0, 0, W, H);
+    const tam = 110, ws = largura("SALMO", tam, "V", 6), wp = largura("PIMENTA", tam, "V", 6), we = largura("e", 64), X0 = W / 2 - (ws + wp + we + 60) / 2;
+    txt("SALMO", X0 + ws / 2, 540, { tam, esp: 6, a: p }); txt("e", X0 + ws + 30 + we / 2, 532, { tam: 64, cor: COR.ouro, a: p }); txt("PIMENTA", X0 + ws + we + 60 + wp / 2, 540, { tam, esp: 6, cor: COR.vermelho, a: p });
+    txt("NO PRÓXIMO VÍDEO, OUTRA HISTÓRIA", W / 2, 640, { tam: 36, esp: 12, cor: "rgba(255,236,205,.85)", a: cl((t - t0 - 1) / 0.6) });
+    x.restore(); if (t > t1 - 1.2) { x.fillStyle = `rgba(0,0,0,${cl((t - t1 + 1.2) / 1.2)})`; x.fillRect(0, 0, W, H); }
+  }, 8);
+}
