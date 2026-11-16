@@ -1,0 +1,19 @@
+<!doctype html><html><head><meta charset="utf-8">
+<style>@font-face{font-family:V;src:url("../../../../resource/fonts/Marcellus-400.woff2");font-weight:100 900}
+@font-face{font-family:Charm;src:url("../../../../resource/fonts/Charm-Bold.ttf");font-weight:700}
+html,body{margin:0;background:#000}canvas{display:block}</style></head><body>
+<canvas id="c" width="1920" height="1080"></canvas>
+<script src="linha.js"></script><script src="motor_longo.js"></script><script src="mapa.js"></script><script src="especiais.js"></script><script src="coreografia.js"></script>
+<script>
+(async () => {
+  try {
+    const LJ = window.LINHA;
+    L.pal = LJ.palavras; L.total = LJ.total;
+    const ids = ["c01","c02","c03","c04","c05","c06","c07","c08","c09","c10","c11","c12","c13","c14","c15","c16","c17","c18","c19","c20","c21","c22","c23","c24","c25","c26","c27","c28","p_elias","p_acabe","p_jezabel","p_viuva","p_eliseu","p_anjo","mao_pena","pergaminho","thumb"];
+    await Promise.all([carregar(ids, "img"), document.fonts.load("700 80px V"), document.fonts.load("700 80px Charm")]);
+    coreografia(LJ);
+    L.cenas.sort((a, b) => a.t0 - b.t0);
+    window.DURATION = L.total; window.READY = true;
+  } catch (e) { window.ERRO = String(e.stack || e); }
+})();
+</script></body></html>
