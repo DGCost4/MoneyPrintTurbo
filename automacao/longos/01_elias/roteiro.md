@@ -110,8 +110,11 @@ falta de fé. Às vezes o próximo passo de Deus para você é comer, dormir e o
 nem sempre vem no fogo. Muitas vezes vem num sussurro.
 
 ### [09:50] Encerramento
-Se essa mensagem te tocou, comenta "descanso". E no próximo vídeo tem outra história.
-Te espero lá.
+Deus não desistiu de Elias debaixo daquele zimbro. E não desistiu de você.
+Talvez hoje você não precise de mais força. Precisa de pão, de descanso e de ouvir de novo aquela
+voz mansa dizendo: o caminho ainda não acabou.
+Se essa mensagem te tocou, comenta "descanso". E fica com a gente, porque no próximo vídeo tem
+outra história que pode falar exatamente com o que você está vivendo.
 
 ---
 **Referências:** 1 Reis 16:29–33; 17; 18; 19:1–21 (falas em paráfrase).
