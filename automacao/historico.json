@@ -143,5 +143,16 @@
     "publicado": false,
     "agendado_para": "2026-11-20T18:00:00-03:00",
     "upload_post_job_id": "9dc4f43c22e84abca0bea3863a111668"
+  },
+  {
+    "data": "2026-11-16T20:00:00-03:00",
+    "formato": "longo",
+    "tema": "elias",
+    "titulo": "Elias: o profeta que pediu pra morrer (a história completa)",
+    "video": "automacao/longos/01_elias/elias_video_compacto.mp4",
+    "aprovado": true,
+    "publicado": false,
+    "agendado_para": "2026-11-22T14:00:00-03:00",
+    "agendamento": "pelo usuário no YouTube Studio (Upload-Post sem uploads no plano)"
   }
 ]
