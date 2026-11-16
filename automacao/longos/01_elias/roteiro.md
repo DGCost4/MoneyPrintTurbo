@@ -110,8 +110,8 @@ falta de fé. Às vezes o próximo passo de Deus para você é comer, dormir e o
 nem sempre vem no fogo. Muitas vezes vem num sussurro.
 
 ### [09:50] Encerramento
-Se essa mensagem te tocou, comenta "descanso". E no próximo domingo tem a história dos
-quatrocentos anos de silêncio antes de Jesus nascer. Te espero lá.
+Se essa mensagem te tocou, comenta "descanso". E no próximo vídeo tem outra história.
+Te espero lá.
 
 ---
 **Referências:** 1 Reis 16:29–33; 17; 18; 19:1–21 (falas em paráfrase).
