@@ -5,6 +5,7 @@ const A = __dirname, FPS = 30, modo = process.argv[2];
 async function abrir(b) {
   const p = await b.newPage({ viewport: { width: 1920, height: 1080 } });
   p.on("pageerror", (e) => console.error("[erro]", e.message)); p.on("console", (m) => m.type() === "error" && console.error("[console]", m.text()));
+  if (process.env.ESTILO) await p.addInitScript((e) => { window.ESTILO_CAP = e; }, process.env.ESTILO);
   await p.goto("file://" + path.join(A, process.env.PAGINA || "pagina.html"));
   await p.waitForFunction(() => window.READY || window.ERRO, null, { timeout: 120000 });
   const erro = await p.evaluate(() => window.ERRO); if (erro) { console.error(erro); process.exit(1); }
@@ -13,8 +14,16 @@ async function abrir(b) {
 const grab = (p, t) => p.evaluate(async (t) => { await window.seek(t); return document.getElementById("c").toDataURL("image/jpeg", 0.93); }, t);
 (async () => {
   const b = await chromium.launch({ args: ["--allow-file-access-from-files", "--disable-web-security"] });
+  if (modo === "trecho") {
+    const p = await abrir(b), [a, z] = process.argv.slice(3, 5).map(Number), out = path.join(A, process.argv[5]);
+    if (process.env.EVENTOS) fs.writeFileSync(path.join(A, process.env.EVENTOS), JSON.stringify({ dur: await p.evaluate(() => DURATION), sfx: await p.evaluate(() => SFX) }));
+    const ff = spawn("ffmpeg", ["-y", "-loglevel", "error", "-f", "image2pipe", "-framerate", "30", "-c:v", "mjpeg", "-i", "-", "-c:v", "libx264", "-crf", "20", "-pix_fmt", "yuv420p", out], { stdio: ["pipe", "inherit", "inherit"] });
+    for (let f = Math.round(a * 30); f < Math.round(z * 30); f++) { const buf = Buffer.from((await grab(p, f / 30)).split(",")[1], "base64"); if (!ff.stdin.write(buf)) await new Promise((r) => ff.stdin.once("drain", r)); }
+    ff.stdin.end(); await new Promise((r) => ff.on("close", r)); return b.close();
+  }
   if (modo === "teste") {
     const p = await abrir(b);
+    if (process.env.EVENTOS) fs.writeFileSync(path.join(A, process.env.EVENTOS), JSON.stringify({ dur: await p.evaluate(() => DURATION), sfx: await p.evaluate(() => SFX) }));
     for (const s of process.argv[3].split(",").map(Number)) fs.writeFileSync(path.join(A, process.argv[4] || "teste", `t${String(s).padStart(6, "0")}.jpg`), Buffer.from((await grab(p, s)).split(",")[1], "base64"));
     return b.close();
   }

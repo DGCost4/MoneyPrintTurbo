@@ -3,7 +3,7 @@ import json, subprocess, os, numpy as np
 SR = 44100
 AQUI = os.path.dirname(os.path.abspath(__file__))
 SFXD = [os.path.join(AQUI, "audio"), os.path.join(AQUI, "../../../tipografia/sfx")]
-LJ = json.load(open(os.path.join(AQUI, "linha.json"))); EV = json.load(open(os.path.join(AQUI, "eventos.json")))
+LJ = json.load(open(os.path.join(AQUI, "linha.json"))); EV = json.load(open(os.path.join(AQUI, os.environ.get("EVENTOS", "eventos.json"))))
 ORIG = json.load(open(os.path.join(AQUI, "../narracao/secoes.json")))
 TOT = int(LJ["total"] * SR) + SR
 def dec(arq, ss=None, dur=None, af=None):
@@ -78,7 +78,7 @@ for e in EV["sfx"]:
 fx *= (1 - 0.72 * duck)[:, None]          # sob a voz os efeitos recuam ~11 dB
 mix = voz * 1.0 + mus + fx + vin
 pk = np.abs(mix).max(); print("pico", pk)
-mix.astype(np.float32).tofile(os.path.join(AQUI, "_mix.f32"))
-subprocess.run(["ffmpeg", "-y", "-v", "error", "-f", "f32le", "-ar", str(SR), "-ac", "2", "-i", os.path.join(AQUI, "_mix.f32"),
-                "-af", "alimiter=limit=0.95:level=false,loudnorm=I=-14:TP=-1.5:LRA=11", "-ar", "48000", os.path.join(AQUI, "_audio.wav")], check=True)
-os.remove(os.path.join(AQUI, "_mix.f32")); print("áudio ok")
+mix.astype(np.float32).tofile(os.path.join(AQUI, os.environ.get("SAIDA", "_audio.wav") + ".f32"))
+subprocess.run(["ffmpeg", "-y", "-v", "error", "-f", "f32le", "-ar", str(SR), "-ac", "2", "-i", os.path.join(AQUI, os.environ.get("SAIDA", "_audio.wav") + ".f32"),
+                "-af", "alimiter=limit=0.95:level=false,loudnorm=I=-14:TP=-1.5:LRA=11", "-ar", "48000", os.path.join(AQUI, os.environ.get("SAIDA", "_audio.wav"))], check=True)
+os.remove(os.path.join(AQUI, os.environ.get("SAIDA", "_audio.wav") + ".f32")); print("áudio ok")
