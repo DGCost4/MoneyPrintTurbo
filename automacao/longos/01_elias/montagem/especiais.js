@@ -37,7 +37,7 @@ const ROMANO = ["", "I", "II", "III", "IV"];
 const TR = { hold: 1.2, entra: 0.9, sai: 1.0, pos: 0.6 };
 const revela = (ins, hold = TR.hold) => ins.t + hold + TR.entra + 0.05;   // instante em que a tela está toda escura
 function cartela(t0, dur, n, nome, o = {}) {
-  const est = window.ESTILO_CAP || "atual";
+  const est = window.ESTILO_CAP || "calma";
   return est === "calma" ? cartelaCalma(t0, dur, n, nome, o) : est === "vinheta" ? cartelaVinheta(t0, dur, n, nome, o) : cartelaAtual(t0, dur, n, nome, o);
 }
 function cartelaAtual(t0, dur, n, nome, { hold = TR.hold, doPreto = false } = {}) {
