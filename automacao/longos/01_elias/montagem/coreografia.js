@@ -29,7 +29,7 @@ function coreografia(LJ) {
   // ============ CAPÍTULO I · A SECA
   const mapaNorte = { de: [35.25, 32.55, 1.0], para: [35.25, 32.5, 1.15] };
   cena("mapa1", INS.cap1.t, { mapa: mapaNorte, trans: "corte" });
-  cartela(INS.cap1.t, INS.cap1.dur, 1, "A seca");
+  cartela(INS.cap1.t, INS.cap1.dur, 1, "A seca", { hold: 0, doPreto: true });
   sfx(INS.cap1.t + INS.cap1.dur, "mapa", 0.6);
   carimbo(T("Vamos voltar uns oitocentos"), T("dividido em dois reinos"), "c. 860 a.C.");
   const tRe = T("dividido em dois reinos");
@@ -89,8 +89,8 @@ function coreografia(LJ) {
   cena("c12", tResp - 0.4, { de: [1.3, 0.62, 0.55], para: [1.15, 0.55, 0.5], amb: [["luz", 1000, 500, 0.8]] }); sfx(tResp - 0.4, "anjo", 0.45);
   fala("agora eu sei que você é um homem de Deus.", { destaque: ["homem", "Deus"], tam: 80, escurece: 0.35 });
   // ============ CAPÍTULO II · O FOGO
-  cena("c13", INS.cap2.t, pan(0.3, 0.45, 1.3)); cartela(INS.cap2.t, INS.cap2.dur, 2, "O fogo");
-  cena("c09", S[3] - 0.2, pan(0.6, 0.4, 1.2)); L.cenas.at(-1).amb = [["calor", 1], ["poeira", 0.6]];
+  cartela(INS.cap2.t, INS.cap2.dur, 2, "O fogo");
+  cena("c09", revela(INS.cap2), { trans: "corte", ...pan(0.6, 0.4, 1.2) }); L.cenas.at(-1).amb = [["calor", 1], ["poeira", 0.6]];
   carimbo(T("A seca durou mais de três anos"), T("Quando Elias finalmente"), "3 ANOS E MEIO", { tam: 60 });
   etiqueta(T("O próprio Jesus"), T("Quando Elias finalmente"), "LUCAS 4:25", "Jesus cita a seca de Elias");
   cena("c08", T("Quando Elias finalmente voltou") - 0.3, { de: [1.35, 0.78, 0.5], para: [1.2, 0.7, 0.5] });
@@ -145,8 +145,8 @@ function coreografia(LJ) {
   cena("c17", T("Foi o dia mais extraordinário") - 0.3, { de: [1.1, 0.5, 0.5], para: [1.25, 0.5, 0.4], amb: [["brasas", 1250, 500, 0.5]] });
   fala("E é exatamente aqui que a história vira.", { destaque: ["vira"], tam: 84 }); sfx(T("que a história vira"), "batida_tensao", 0.6);
   // ============ CAPÍTULO III · O DESERTO
-  cena("c19", INS.cap3.t, { de: [1.25, 0.5, 0.5], para: [1.25, 0.5, 0.5], escuro: 0.3 }); cartela(INS.cap3.t, INS.cap3.dur, 3, "O deserto");
-  cena("c06", S[4] - 0.2, { de: [1.2, 0.5, 0.5], para: [1.3, 0.55, 0.45], escuro: 0.2 });
+  cartela(INS.cap3.t, INS.cap3.dur, 3, "O deserto");
+  cena("c06", revela(INS.cap3), { trans: "corte", de: [1.2, 0.5, 0.5], para: [1.3, 0.55, 0.45], escuro: 0.2 });
   const tMens = T("E Jezabel mandou um mensageiro");
   cena("c19", tMens - 0.3, { de: [1.15, 0.45, 0.5], para: [1.3, 0.35, 0.45] }); sfx(tMens - 0.3, "porta_palacio", 0.4);
   fala("que os deuses me castiguem com todo rigor se amanhã, a esta hora, eu não fizer com a sua vida o que você fez com a vida deles.", { destaque: ["castiguem", "amanhã", "vida"], tam: 62, escurece: 0.55 });
@@ -187,10 +187,10 @@ function coreografia(LJ) {
   M.leg("Berseba", "Horebe", t40 + 0.5, 5.0); M.pino("Berseba", t40, t40 + 7, { lado: -1 }); M.pino("Horebe", t40 + 5.2, t40 + 9, { sub: "o monte de Deus (Sinai)" });
   carimbo(T("quarenta dias e quarenta noites"), t40 + 9, "40 DIAS E 40 NOITES", { X: 1350, Y: 240, tam: 54 });
   cena("c24", T("O mesmo monte") - 0.3, pan(0.25, 0.7, 1.25)); sfx(T("O mesmo monte") - 0.3, "vento_deserto", 0.3, { dur: 10 });
-  etiqueta(T("também chamado Sinai"), INS.cap4.t - 0.3, "HOREBE", "onde Deus falou com Moisés");
+  etiqueta(T("também chamado Sinai"), INS.cap4.t + 0.8, "HOREBE", "onde Deus falou com Moisés");
   // ============ CAPÍTULO IV · A VOZ
-  cena("c25", INS.cap4.t, { de: [1.3, 0.4, 0.5], para: [1.3, 0.4, 0.5], amb: [["estrelas"]] }); cartela(INS.cap4.t, INS.cap4.dur, 4, "A voz");
-  cena("c25", S[6] - 0.2, { de: [1.25, 0.35, 0.55], para: [1.1, 0.4, 0.5], amb: [["estrelas"]] }); sfx(S[6] - 0.2, "caverna", 0.45, { dur: 22 });
+  cartela(INS.cap4.t, INS.cap4.dur, 4, "A voz");
+  cena("c25", revela(INS.cap4), { trans: "corte", de: [1.25, 0.35, 0.55], para: [1.1, 0.4, 0.5], amb: [["estrelas"]] }); sfx(revela(INS.cap4), "caverna", 0.45, { dur: 24 });
   fala("o que você está fazendo aqui, Elias?", { destaque: ["aqui"], tam: 92, cor: COR.ouro });
   cena("c25", T("E ele despejou tudo") - 0.3, { de: [1.45, 0.25, 0.6], para: [1.55, 0.27, 0.6], escuro: 0.15, amb: [["estrelas"]] });
   fala("Só sobrou eu.", { destaque: ["eu"], tam: 110 });
@@ -224,7 +224,8 @@ function coreografia(LJ) {
   cena("c28", T("jogou a capa") - 0.3, { de: [1.5, 0.62, 0.45], para: [1.35, 0.6, 0.45] });
   fala("Daquele dia em diante, Elias nunca mais caminhou sozinho.", { destaque: ["nunca", "sozinho"], tam: 78, cor: COR.ouro, escurece: 0.35 });
   // ============ ENCERRAMENTO
-  cena("c21", S[8] - 0.2, { de: [1.1, 0.5, 0.5], para: [1.2, 0.58, 0.55] });
+  cartela(INS.cap5.t, INS.cap5.dur, 0, "Encerramento");
+  cena("c21", revela(INS.cap5), { trans: "corte", de: [1.1, 0.5, 0.5], para: [1.2, 0.58, 0.55] });
   cena("c22", T("Deus não desistiu de Elias") - 0.3, { de: [1.2, 0.5, 0.55], para: [1.1, 0.55, 0.5], amb: [["luz", 1500, 400, 0.8]] });
   fala("E não desistiu de você.", { destaque: ["você"], tam: 110, cor: COR.ouro, escurece: 0.3 });
   cena("c23", T("Talvez hoje você não precise") - 0.3, { de: [1.1, 0.45, 0.5], para: [1.2, 0.5, 0.5], amb: [["luz", 1300, 300, 1]] });

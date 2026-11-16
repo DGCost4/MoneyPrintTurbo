@@ -33,14 +33,23 @@ function vinheta(t0, dur) {
   L.over.push(o);
 }
 const ROMANO = ["", "I", "II", "III", "IV"];
-function cartela(t0, dur, n, nome) {
-  const t1 = t0 + dur; sfx(t0, "taiko", 0.55); sfx(t0 + 0.05, "transicao", 0.5);
-  over(t0 - 0.3, t1 + 0.4, (t) => {
-    const a = env(t, t0 - 0.3, t1 + 0.4, 0.35, 0.5), p = ease.o4(cl((t - t0) / 0.9));
-    x.save(); x.globalAlpha = a; x.fillStyle = "rgba(14,9,7,.82)"; x.fillRect(0, 0, W, H);
-    txt(`CAPÍTULO ${ROMANO[n]}`, W / 2, 470, { tam: 40, esp: 18, cor: COR.ouro, a: p });
-    x.fillStyle = COR.vermelho; x.fillRect(W / 2 - 140 * p, 505, 280 * p, 5);
-    txt(nome.toUpperCase(), W / 2, 640 + (1 - p) * 40, { tam: 140, esp: 14, a: cl((t - t0 - 0.15) / 0.6) });
+// Transição padrão de capítulo: respiro na cena anterior -> escurece -> cartela -> revela a cena nova -> narração.
+const TR = { hold: 1.2, entra: 0.9, sai: 1.0, pos: 0.6 };
+const revela = (ins, hold = TR.hold) => ins.t + hold + TR.entra + 0.05;   // instante em que a tela está toda escura
+function cartela(t0, dur, n, nome, { hold = TR.hold, doPreto = false } = {}) {
+  const a0 = t0 + hold, a1 = t0 + dur - TR.pos, ent = doPreto ? 0.01 : TR.entra;
+  sfx(a0, "transicao", 0.45); sfx(a0 + ent * 0.7, "taiko", 0.28); sfx(a1 - TR.sai, "transicao", 0.25);
+  over(a0, a1, (t) => {
+    const escuro = Math.min(cl((t - a0) / ent), cl((a1 - t) / TR.sai));
+    const tx = Math.min(cl((t - a0 - ent * 0.6) / 0.7), cl((a1 - TR.sai * 0.6 - t) / 0.5));
+    const p = ease.o4(cl((t - a0 - ent * 0.6) / 1.4));
+    x.save(); x.fillStyle = `rgba(12,8,6,${0.97 * ease.sio(escuro)})`; x.fillRect(0, 0, W, H);
+    if (tx > 0) {
+      x.globalAlpha = tx;
+      txt(n ? `CAPÍTULO ${ROMANO[n]}` : "", W / 2, 470, { tam: 40, esp: lerp(26, 18, p), cor: COR.ouro });
+      x.fillStyle = COR.vermelho; x.fillRect(W / 2 - 140 * p, 505, 280 * p, 4);
+      txt(nome.toUpperCase(), W / 2, 640 + (1 - p) * 24, { tam: 140, esp: lerp(22, 14, p) });
+    }
     x.restore();
   }, 6);
 }

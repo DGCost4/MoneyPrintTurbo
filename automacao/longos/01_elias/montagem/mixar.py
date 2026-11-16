@@ -41,21 +41,21 @@ def trecho(arq, ss, dur, t0, fi=2.0, fo=3.0, af=None):
     n = len(a); r = np.ones(n, np.float32)
     r[:int(fi * SR)] = np.linspace(0, 1, int(fi * SR))[:n]; r[-int(fo * SR):] *= np.linspace(1, 0, int(fo * SR))[-n:]
     soma(mus, a * r[:, None], t0)
-# I: m1 do início até a cartela II (pausa durante título/vinheta)
+HOLD = 1.2
+x2, x3, x4 = c2 + HOLD, c3 + HOLD, c4 + HOLD          # início do escurecimento de cada cartela
 v0 = INS["titulo"]["t"]
 trecho("m1_seca.mp3", 0, v0 + 1.5, 0, fi=1.5, fo=1.5)
-trecho("m1_seca.mp3", v0, c2 - INS["cap1"]["t"] + 2, INS["cap1"]["t"], fi=1.0, fo=3)
-# II: m2 (o fogo) da cartela II até a III
-trecho("m2_fogo.mp3", 0, c3 - c2 + 2.5, c2 - 0.5, fi=0.5, fo=3)
+trecho("m1_seca.mp3", v0, x2 - INS["cap1"]["t"] + 2.5, INS["cap1"]["t"], fi=1.5, fo=2.5)
+trecho("m2_fogo.mp3", 0, x3 - x2 + 2.5, x2, fi=1.5, fo=2.5)
 # III e IV: sem créditos para trilhas novas -> m1 transformada (mais lenta, abafada, com eco)
-trecho("m1_seca.mp3", 150, (c4 - c3 + 3) * 0.88, c3 - 0.5, fi=2, fo=3, af="atempo=0.88,lowpass=f=2400,aecho=0.8:0.6:120:0.25")
-trecho("m1_seca.mp3", 10, (LJ["total"] - c4 + 1) * 0.9, c4 - 0.5, fi=2, fo=5, af="atempo=0.9,lowpass=f=3200,aecho=0.8:0.5:90:0.2")
+trecho("m1_seca.mp3", 150, (x4 - x3 + 3) * 0.88, x3, fi=1.5, fo=2.5, af="atempo=0.88,lowpass=f=2400,aecho=0.8:0.6:120:0.25")
+trecho("m1_seca.mp3", 10, (LJ["total"] - x4 + 1) * 0.9, x4, fi=1.5, fo=5, af="atempo=0.9,lowpass=f=3200,aecho=0.8:0.5:90:0.2")
 ganho_mus = 10 ** (-17 / 20) * (1 - duck * 0.6)      # mais baixa sob a voz
 # sem trilha durante a vinheta (ela tem o próprio som)
 v = INS["vinheta"]; a0, a1 = int((v["t"] - 0.3) * SR), int((v["t"] + v["dur"]) * SR); ganho_mus[a0:a1] *= 0.08
 mus *= ganho_mus[:, None]
 # ---------- efeitos
-fx = np.zeros((TOT, 2), np.float32); cache = {}
+fx = np.zeros((TOT, 2), np.float32); vin = np.zeros((TOT, 2), np.float32); cache = {}
 def carrega(nome):
     if nome not in cache:
         if nome == "VINHETA": a = dec(os.path.join(AQUI, "../../vinheta/vinheta.mp4"))
@@ -71,10 +71,12 @@ for e in EV["sfx"]:
     if e.get("dur"):
         n = int(e["dur"] * SR); a = a[:n].copy() if len(a) >= n else np.tile(a, (n // len(a) + 1, 1))[:n].copy()
         f = min(int(0.8 * SR), n // 3); a[:f] *= np.linspace(0, 1, f)[:, None]; a[-f:] *= np.linspace(1, 0, f)[:, None]
-        g = e["ganho"] * 0.5 * (1 - 0.35 * duck[int(t * SR):int(t * SR) + len(a)].mean() if t > 0 else 1)
-    else: g = e["ganho"] * (1.4 if nome == "VINHETA" else 0.6)
-    soma(fx, a, t, g)
-mix = voz * 1.0 + mus + fx
+        g = e["ganho"] * 0.38
+    else: g = e["ganho"] * 0.45
+    if nome == "VINHETA": soma(vin, a, t, e["ganho"] * 1.4)
+    else: soma(fx, a, t, g)
+fx *= (1 - 0.72 * duck)[:, None]          # sob a voz os efeitos recuam ~11 dB
+mix = voz * 1.0 + mus + fx + vin
 pk = np.abs(mix).max(); print("pico", pk)
 mix.astype(np.float32).tofile(os.path.join(AQUI, "_mix.f32"))
 subprocess.run(["ffmpeg", "-y", "-v", "error", "-f", "f32le", "-ar", str(SR), "-ac", "2", "-i", os.path.join(AQUI, "_mix.f32"),

@@ -1,9 +1,9 @@
 """Linha do tempo final: insere título, vinheta e cartelas de capítulo entre os blocos da narração."""
 import json
 P = json.load(open("../narracao/palavras.json")); S = json.load(open("../narracao/secoes.json"))
-TITULO, VINHETA, CARTELA, FIM = 3.4, 5.833, 3.2, 6.0
+TITULO, VINHETA, CARTELA, CARTELA1, FIM = 3.4, 5.833, 6.1, 4.6, 6.0
 # inserções antes do bloco i: (duração, tipo)
-INS = {1: [("titulo", TITULO), ("vinheta", VINHETA), ("cap1", CARTELA)], 3: [("cap2", CARTELA)], 4: [("cap3", CARTELA)], 6: [("cap4", CARTELA)]}
+INS = {1: [("titulo", TITULO), ("vinheta", VINHETA), ("cap1", CARTELA1)], 3: [("cap2", CARTELA)], 4: [("cap3", CARTELA)], 6: [("cap4", CARTELA)], 8: [("cap5", CARTELA)]}
 inicio = [s["inicio"] for s in S] + [1e9]
 desl, eventos, extra = [], [], 0.0
 for i in range(len(S)):
