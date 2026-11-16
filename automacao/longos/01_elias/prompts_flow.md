@@ -1,159 +1,216 @@
-# Vídeo longo 01 · Elias · Prompts para o Google Flow
+# Vídeo longo 01 · Elias · Prompts para o Google Flow (v2: documentário ilustrado em vetor plano)
 Pasta no Drive: **SalmoePimenta / 2211 - LONGO · Elias, do fogo ao deserto**
 
+## Resumo
+| Bloco | Quantidade | Formato |
+|---|---|---|
+| Fichas de personagem (fundo liso) | 6 | 16:9 |
+| Peças avulsas (mão com pena, pergaminho) | 2 | 16:9 |
+| Base da thumbnail | 1 | 16:9 |
+| Cenas | 28 | 16:9 |
+| Animações no Veo (a partir de 6 cenas) | 6 clipes de ~8 s | 16:9 |
+
+**Mapa, datas, etiquetas, cartelas, legendas, carimbos e o texto do manuscrito eu faço em código:
+não gere nada disso.**
+
 ## Como fazer
-1. Formato **horizontal 16:9** (vídeo longo). As imagens dos Shorts eram verticais; estas não.
-2. Em cada imagem, cole o **bloco de estilo + o prompt da cena**.
-3. **Comece pela ficha do Elias (ref)** e use a melhor como **imagem de referência ("ingrediente")**
-   em todas as cenas em que ele aparece, para o rosto não mudar.
-4. Gere 2 a 4 variações e fique com a melhor de cada número.
-5. Salve na pasta do Drive com estes nomes: `ref.png`, `thumb.png`, `c01.png` … `c31.png`
-   (ou um .zip, como você fez no lote 3; se o Flow der outro nome, tudo bem, eu identifico pela cena).
-
-Total: **33 imagens** (1 referência, 1 thumbnail, 31 cenas). Não precisa usar vídeo do Veo; eu
-animo as imagens na montagem.
-
----
-
-## Bloco de estilo (cole antes de todo prompt)
-```
-Japanese ukiyo-e woodblock print, Edo period style: flat areas of color, bold carved black outlines with varying thickness, visible washi paper texture and woodgrain, hand-wiped bokashi gradient sky, slight color misregistration. Limited palette: Prussian blue dominant, pale blue, ochre, straw yellow, muted greens, sumi black, and vermilion red used sparingly. Biblical characters in ancient Near Eastern clothing (simple tunics, mantles, head coverings, sandals), NOT samurai, NOT kimono, NOT Japanese clothing. Expressive faces with clear, readable emotion. Horizontal 16:9 cinematic composition. No text, no letters, no calligraphy, no seals, no signature, no watermark.
-```
+1. Formato **16:9** em tudo.
+2. Cole o **bloco de estilo + o prompt**. Gere 2 a 4 variações e fique com a melhor.
+3. Gere primeiro as **fichas de personagem** e use-as como **imagem de referência ("ingrediente")**
+   nas cenas em que o personagem aparece, para o rosto não mudar.
+4. **Veo:** depois que as cenas estiverem prontas, abra a cena indicada, use **"Frames to video"
+   (imagem para vídeo)** com o prompt de movimento. Use o modo mais econômico (Fast); **o áudio do
+   Veo não importa**, eu coloco a trilha e os efeitos.
+5. Salve na pasta do Drive com estes nomes (ou num .zip): `p_elias.png` … `thumb.png`, `c01.png` …
+   `c28.png`, `v1.mp4` … `v6.mp4`. Se o Flow der outro nome, tudo bem: eu identifico.
 
 ---
 
-## Personagem e capa
-**ref** (ficha do Elias)
+## Bloco de estilo (cole antes de todo prompt de imagem)
 ```
-Character reference sheet of the prophet Elijah: a lean, weathered man around 50, long dark beard with grey streaks, intense deep-set eyes, wearing a rough garment of camel hair and a wide leather belt, a simple wooden staff. Front view and side view on a plain washi paper background.
-```
-**thumb** (base da thumbnail; o texto "BASTA, SENHOR." eu coloco depois)
-```
-The prophet Elijah, exhausted, sitting under a small desert broom tree, face buried in his hands, shoulders slumped; far in the background on a mountain top a column of fire rises into a dark sky. Strong contrast, dramatic, emotional close-medium shot, room on the right side for a big title.
+Flat 2D vector illustration in the style of a modern animated history documentary: clean simple geometric shapes, no outlines, smooth subtle gradients, soft vignette, warm cinematic lighting, limited harmonious palette of warm ochres, sand, terracotta, deep blues and muted greens. Simplified characters with round heads, small dot eyes, simple expressive faces and flat shading. Ancient Near Eastern biblical setting and clothing (tunics, mantles, head coverings, sandals). Clean environments with layered depth. Horizontal 16:9. No text, no letters, no logos, no watermark.
 ```
 
-## Cenas (na ordem da narração)
-**c01** · abertura
+## Fichas de personagem (fundo liso)
+**p_elias**
 ```
-Close-medium shot of Elijah sitting alone under a desert broom tree, face in his hands, harsh dusk light, vast empty desert behind him.
+Character design of the prophet Elijah on a plain light beige background: lean man around 50, long dark beard with grey streaks, deep-set intense eyes, rough garment of camel hair with a wide leather belt, wooden staff. Front view and three-quarter view side by side.
 ```
-**c02** · abertura
+**p_acabe**
 ```
-A massive column of fire falling from a dark sky onto a stone altar on a mountain top, a huge crowd below shielding their eyes.
+Character design of King Ahab of Israel on a plain light beige background: middle-aged king, short dark beard, gold crown, rich purple and red royal robes, proud but weak expression. Front view and three-quarter view.
 ```
-**c03** · Acabe e Jezabel
+**p_jezabel**
 ```
-King Ahab on an ornate throne in a palace hall, Queen Jezebel standing beside him with a cold, proud expression, a carved idol of Baal behind them, rich fabrics and lamps.
+Character design of Queen Jezebel on a plain light beige background: elegant Phoenician queen, dark hair with gold ornaments, heavy eye makeup, deep blue and gold gown, cold proud expression. Front view and three-quarter view.
 ```
-**c04** · culto a Baal
+**p_viuva**
 ```
-A pagan altar to Baal with priests in elaborate robes burning incense, crowds of Israelites bowing in front of it, smoke rising.
+Character design of a poor widow of Zarephath and her young son on a plain light beige background: thin woman in a simple worn brown tunic and head covering, tired kind face; small boy holding her hand. Front view.
 ```
-**c05** · anúncio da seca
+**p_eliseu**
 ```
-Elijah standing boldly before King Ahab in the palace, pointing up to the sky, declaring a drought, the king startled on his throne.
+Character design of Elisha on a plain light beige background: young farmer around 25, short beard, simple tunic with sleeves rolled up, sandals, honest face. Front view and three-quarter view.
 ```
-**c06** · a seca
+**p_anjo**
 ```
-Drought landscape: cracked dry earth, withered crops, dead trees, a merciless sun in a pale sky, a lone shepherd with thin sheep.
+Character design of an angel on a plain light beige background: gentle figure in simple white robes with soft golden light around, calm kind face, no exaggerated wings or small subtle wings. Front view.
 ```
-**c07** · os corvos
+
+## Peças avulsas (eu recorto e animo)
+**mao_pena**
 ```
-Elijah sitting beside a small brook in a rocky ravine while black ravens fly down bringing him bread and meat in their beaks.
+A single human hand holding a feather quill pen, seen from the side as if writing, on a plain light beige background, nothing else in the image.
 ```
-**c08** · o riacho seca
+**pergaminho**
 ```
-The same ravine, now the brook is dry, only a last small puddle; Elijah kneeling and looking at it, worried.
+A blank aged parchment scroll lying open on a wooden desk, warm candle light from the side, top-down view, the parchment surface empty and clean.
 ```
-**c09** · a viúva
+
+## Base da thumbnail (o texto eu coloco)
+**thumb**
 ```
-At a city gate, a poor widow gathering sticks with her young son beside her; Elijah approaching tired and dusty.
+Split composition of the same face of the prophet Elijah divided vertically in the middle. Left half: Elijah triumphant on Mount Carmel, arms raised, a column of fire falling from the sky behind him, warm red and orange tones. Right half: the same Elijah exhausted in the desert under a small broom tree, tired eyes, cold deep blue tones. Large expressive face in the center, empty space at the top for a big one-word title.
 ```
-**c10** · farinha e azeite
+
+## Cenas (na ordem da narração) · ★ = panorâmica larga, para a câmera passear
+**c01** · pergunta 1 · *Elias fugindo à noite, olhando para trás com medo, o palácio ao longe.*
 ```
-Inside a humble house, the widow pouring a little oil from a jug and taking flour from a jar to bake bread on a small clay oven, warm lamp light, the boy watching.
+Elijah fleeing at night along a desert path, looking back over his shoulder in fear, a distant palace with lit windows on a hill, moonlight.
 ```
-**c11** · o desafio do Carmelo
+**c02** · pergunta 2 · corvos
 ```
-Mount Carmel: a huge crowd on the slopes, two stone altars with wood and sacrifice, hundreds of prophets of Baal in robes on one side, Elijah standing alone on the other.
+Elijah sitting beside a small brook in a rocky ravine while black ravens fly down bringing him bread and meat.
 ```
-**c12** · Baal não responde
+**c03** · pergunta 3 · a montanha na tempestade ★
+```
+Wide panoramic view of a rocky holy mountain at night during a violent storm, wind bending the few trees, rocks falling, a tiny figure at the mouth of a cave.
+```
+**c04** · pergunta 4 · os sete mil ★
+```
+Wide panoramic view of many small villages and fields across hills of ancient Israel at dawn, tiny people working and praying quietly, peaceful light.
+```
+**c05** · Samaria ★
+```
+Wide panoramic view of the ancient city of Samaria on a hill with walls, a palace and houses, fields and olive trees around, warm afternoon light.
+```
+**c06** · Acabe e Jezabel no palácio
+```
+Inside a rich palace hall: King Ahab seated on a throne, Queen Jezebel standing beside him, a carved idol of Baal on a pedestal behind them, lamps and colorful fabrics.
+```
+**c07** · culto a Baal ★
+```
+Wide view of a pagan high place with an altar to Baal, priests in elaborate robes burning incense, crowds of Israelites bowing, smoke rising.
+```
+**c08** · Elias diante do rei
+```
+Elijah standing boldly in the palace hall before King Ahab, pointing up to the sky, the king startled on his throne.
+```
+**c09** · a seca ★
+```
+Wide panoramic drought landscape: cracked dry earth, withered crops, dry riverbed, dead trees, a harsh sun in a pale sky, a lone shepherd with thin sheep.
+```
+**c10** · o riacho seca
+```
+A rocky ravine where the brook has dried up, only a last small puddle; Elijah kneeling and looking at it, worried.
+```
+**c11** · a viúva no portão
+```
+At the gate of a small town, a poor widow gathering sticks with her young son; Elijah approaching, tired and dusty.
+```
+**c12** · farinha e azeite (casa em corte)
+```
+Cross-section cutaway view of a humble one-room house: the widow baking bread on a small clay oven, a flour jar and an oil jug on a shelf, the boy and Elijah sitting at a low table, warm lamp light.
+```
+**c13** · o monte Carmelo ★
+```
+Wide panoramic view of Mount Carmel with a huge crowd on the slopes, two stone altars with wood and sacrifices, hundreds of prophets of Baal on one side and Elijah alone on the other.
+```
+**c14** · Baal não responde
 ```
 The prophets of Baal dancing frantically and shouting around their altar under a blazing midday sun, arms raised, exhausted, nothing happening.
 ```
-**c13** · Elias provoca
+**c15** · o altar encharcado
 ```
-Elijah with a slight ironic smile, hand cupped to his mouth as if calling out, the tired prophets of Baal in the background, the crowd watching.
+Elijah beside an altar of twelve stones while men pour large jars of water over the sacrifice and wood, a trench around the altar filled with water.
 ```
-**c14** · o altar encharcado
+**c16** · a oração no fim da tarde
 ```
-Elijah rebuilding an altar of twelve stones; men pouring large jars of water over the sacrifice and wood, a trench around the altar filled with water.
+Elijah standing before the soaked altar at sunset, arms raised to the sky, calm and confident, golden light.
 ```
-**c15** · a oração
+**c17** · o fogo cai ★
 ```
-Elijah standing before the soaked altar at late afternoon, arms raised to the sky, calm and confident, golden evening light.
+Wide view: fire falling from heaven and consuming the altar, stones and water turning to steam, the crowd falling face down on the slopes.
 ```
-**c16** · o fogo cai
+**c18** · a chuva e a carruagem ★
 ```
-Fire falling from heaven and consuming the altar, the stones and the water in the trench turning to steam, the crowd falling face down to the ground.
+Wide view: dark storm clouds over the sea, heavy rain beginning, Elijah running ahead of King Ahab's horse-drawn chariot along a road.
 ```
-**c17** · a chuva
-```
-Dark storm clouds rolling in over the sea, heavy rain beginning; Elijah running ahead of King Ahab's horse-drawn chariot along a road.
-```
-**c18** · a ameaça
+**c19** · Jezabel ameaça
 ```
 Queen Jezebel in her palace, furious, handing a sealed message to a messenger, dramatic lamplight and long shadows.
 ```
-**c19** · a fuga
+**c20** · o deserto de Berseba ★
 ```
-Elijah fleeing at night along a desert path, looking back over his shoulder in fear, moonlight, his servant behind him.
+Wide panoramic empty desert, a tiny figure of Elijah walking alone under a hot white sky, dunes and rocks.
 ```
-**c20** · o deserto
+**c21** · debaixo do zimbro
 ```
-Elijah walking alone through a vast desert of Beersheba, a tiny figure in an immense empty landscape under a hot white sky.
+Elijah sitting under a small desert broom tree, face buried in his hands, completely exhausted, evening light.
 ```
-**c21** · "basta, Senhor"
-```
-Wide shot of Elijah lying down under a small broom tree in the desert, completely exhausted, praying with his eyes closed.
-```
-**c22** · o anjo
+**c22** · o anjo e o pão
 ```
 Elijah asleep on the ground under the broom tree; an angel in white robes gently touching his shoulder; beside his head a round bread baked on hot stones and a jar of water.
 ```
 **c23** · levanta e come
 ```
-Elijah sitting up and eating the bread and drinking water at dawn, the angel standing quietly nearby, soft warm light.
+Elijah sitting up and eating bread and drinking water at dawn, the angel standing quietly nearby, soft warm light.
 ```
-**c24** · 40 dias de caminhada
+**c24** · 40 dias de caminhada ★
 ```
-Elijah walking with his staff across desert and hills for many days, the holy mountain Horeb rising far in the distance, sequence of dunes and ridges.
+Wide panoramic view of Elijah walking with his staff across desert and hills toward a tall holy mountain far in the distance.
 ```
 **c25** · a caverna
 ```
-Night on Mount Horeb: Elijah sitting inside the mouth of a cave, small fire, deep blue sky with stars, loneliness.
+Night on the holy mountain: Elijah sitting at the mouth of a cave beside a small fire, deep blue sky with stars, loneliness.
 ```
-**c26** · o vento
+**c26** · vento, terremoto e fogo ★
 ```
-A tremendous wind tearing the mountain and shattering rocks, swirling dust and debris, Elijah sheltering at the cave entrance.
+Wide view of the mountain in chaos: a tremendous wind shattering rocks, cracks opening in the ground, a great fire on the slope, Elijah sheltering at the cave entrance.
 ```
-**c27** · o terremoto
+**c27** · a voz suave
 ```
-An earthquake splitting the rocky mountainside, huge cracks opening, boulders falling.
+After the storm, total calm: Elijah standing at the mouth of the cave with his face wrapped in his mantle, soft golden light falling on him, peaceful.
 ```
-**c28** · o fogo
+**c28** · Eliseu e o manto
 ```
-A great fire sweeping across the mountain slope, flames and smoke, night sky glowing red.
+Elijah throwing his mantle over the shoulders of Elisha, a young farmer plowing a field with oxen, green fields and morning light.
 ```
-**c29** · a voz suave
+
+---
+
+## Animações no Veo ("Frames to video", ~8 s cada, a partir da cena indicada)
+**v1** · a partir de **c02** (corvos)
 ```
-After the storm, total calm: Elijah standing at the mouth of the cave, his face wrapped in his mantle, a soft golden light falling on him, peaceful.
+The ravens fly down in gentle loops and land near Elijah, dropping bread beside him; the brook flows softly. Slow subtle camera push in.
 ```
-**c30** · Eliseu
+**v2** · a partir de **c14** (Baal não responde)
 ```
-Elijah meeting Elisha, a young farmer plowing a field with oxen, and throwing his mantle over Elisha's shoulders.
+The prophets of Baal dance and shout frantically around the altar, arms waving, heat shimmering in the air; nothing happens. Camera slowly pans across them.
 ```
-**c31** · encerramento
+**v3** · a partir de **c17** (o fogo cai)
 ```
-Sunrise over green hills, Elijah and Elisha walking together along a path toward the light, warm golden sky, hope.
+A column of fire falls from the sky onto the altar, flames burst and steam rises from the trench, the crowd falls to the ground. Dramatic, slow camera tilt down.
+```
+**v4** · a partir de **c18** (a chuva)
+```
+Heavy rain starts falling, dark clouds roll, Elijah runs ahead of the chariot, the horses gallop. Camera tracks sideways with them.
+```
+**v5** · a partir de **c22** (o anjo)
+```
+The angel gently touches the sleeping Elijah's shoulder; Elijah slowly opens his eyes; a thin wisp of steam rises from the warm bread. Very calm, soft light.
+```
+**v6** · a partir de **c27** (a voz suave)
+```
+The storm fades away, dust settles, Elijah slowly wraps his face in his mantle and bows his head as a soft golden light grows around him. Very slow camera push in, peaceful.
 ```
