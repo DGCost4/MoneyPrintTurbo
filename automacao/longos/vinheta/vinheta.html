@@ -1,0 +1,100 @@
+<!doctype html><html><head><meta charset="utf-8">
+<style>@font-face{font-family:V;src:url("../../../resource/fonts/BeVietnamPro-Bold.ttf");font-weight:700}
+html,body{margin:0;background:#000}canvas{display:block}</style></head><body>
+<canvas id="c" width="1920" height="1080"></canvas>
+<script src="gsap.min.js"></script>
+<script>
+const W=1920,H=1080,c=document.getElementById("c"),x=c.getContext("2d");
+const S={bg:0,raios:0,rot:0,livro:0,pag1:0,pag2:0,pimY:-700,pimR:-0.9,squash:0,onda:0,onda2:0,t1:0,t2:0,t3:0,tag:0,brilho:0,saida:0};
+window.SFX=[];const sfx=(t,n,g=1)=>SFX.push({t,nome:n,ganho:g});
+const tl=gsap.timeline({paused:true});
+// fundo e raios
+tl.to(S,{bg:1,duration:.6,ease:"power2.out"},0);
+tl.to(S,{raios:1,duration:1.1,ease:"expo.out"},.75);
+tl.to(S,{rot:.5,duration:4.5,ease:"none"},0);
+// livro abre e páginas viram
+tl.to(S,{livro:1,duration:.55,ease:"back.out(1.6)"},.1);sfx(.08,"whoosh",.6);
+tl.to(S,{pag1:1,duration:.38,ease:"power2.inOut"},.45);sfx(.45,"pergaminho",.8);
+tl.to(S,{pag2:1,duration:.32,ease:"power2.inOut"},.62);
+// pimenta cai no livro
+tl.to(S,{pimY:0,pimR:-.35,duration:.42,ease:"power3.in"},.78);sfx(1.2,"impacto_pesado",.9);sfx(1.2,"taiko",.7);
+tl.set(S,{squash:1},1.2);tl.to(S,{squash:0,duration:.6,ease:"elastic.out(1,.35)"},1.2);
+tl.to(S,{onda:1,duration:.7,ease:"expo.out"},1.2);tl.to(S,{onda2:1,duration:1,ease:"expo.out"},1.28);
+tl.to(S,{brilho:1,duration:.08},1.2);tl.to(S,{brilho:0,duration:.5},1.28);
+// letreiro
+tl.to(S,{t1:1,duration:.5,ease:"power4.out"},1.45);sfx(1.45,"clique",.7);
+tl.to(S,{t2:1,duration:.4,ease:"back.out(3)"},1.65);sfx(1.65,"clique",.5);
+tl.to(S,{t3:1,duration:.5,ease:"power4.out"},1.8);sfx(1.8,"impacto_medio",.7);
+tl.to(S,{tag:1,duration:.6,ease:"power2.out"},2.25);
+sfx(1.1,"braam@pico",.45);
+// saída
+tl.to(S,{saida:1,duration:.45,ease:"expo.in"},4.05);sfx(3.95,"whoosh",.7);
+const DUR=4.6;tl.to({},{duration:DUR},0);
+
+const lerp=(a,b,t)=>a+(b-a)*t, cl=v=>Math.max(0,Math.min(1,v));
+function raios(cx,cy){if(!S.raios)return;x.save();x.translate(cx,cy);x.rotate(S.rot);
+ const R=1400*S.raios;for(let k=0;k<18;k++){x.rotate(Math.PI*2/18);x.beginPath();x.moveTo(0,0);x.lineTo(R,-R*.09);x.lineTo(R,R*.09);x.closePath();
+ x.fillStyle=`rgba(246,185,59,${.13*S.raios})`;x.fill();}x.restore();
+ const g=x.createRadialGradient(cx,cy,0,cx,cy,520);g.addColorStop(0,`rgba(255,214,130,${.55*S.raios})`);g.addColorStop(1,"rgba(255,214,130,0)");
+ x.fillStyle=g;x.fillRect(0,0,W,H);}
+function pagina(lado,ang,cor){ // lado -1 esq, 1 dir ; ang 0..1 (vira da direita p/ esquerda)
+ const w=250,h=320;const sx=Math.cos(ang*Math.PI);x.save();x.scale(sx,1);
+ x.beginPath();x.moveTo(0,-h/2);x.quadraticCurveTo(w*.5,-h/2-18,w,-h/2);x.lineTo(w,h/2);x.quadraticCurveTo(w*.5,h/2-18,0,h/2);x.closePath();
+ x.fillStyle=cor;x.fill();
+ if(sx>0){x.fillStyle="rgba(120,90,50,.28)";for(let i=0;i<7;i++)x.fillRect(40,-h/2+60+i*30,w-80-(i%3)*30,7);}
+ x.restore();}
+function livro(cx,cy){const p=S.livro;if(!p)return;x.save();x.translate(cx,cy+40);const sq=S.squash;
+ x.scale(p*(1+.08*sq),p*(1-.12*sq));
+ // capa
+ x.fillStyle="#7a2b1f";x.beginPath();x.roundRect(-275,-175,550,370,18);x.fill();
+ x.fillStyle="#5c1f16";x.fillRect(-275,170,550,25);
+ // páginas
+ x.save();x.scale(-1,1);pagina(-1,0,"#efe2c4");x.restore();pagina(1,0,"#f5ead2");
+ // páginas virando
+ if(S.pag1>0&&S.pag1<1)pagina(1,S.pag1,S.pag1<.5?"#f5ead2":"#e8d9b6");
+ if(S.pag2>0&&S.pag2<1)pagina(1,S.pag2,S.pag2<.5?"#f5ead2":"#e8d9b6");
+ x.fillStyle="rgba(0,0,0,.15)";x.fillRect(-4,-170,8,340);
+ x.restore();}
+function pimenta(cx,cy){if(S.pimY<=-690)return;x.save();x.translate(cx+20,cy-30+S.pimY);x.rotate(S.pimR);
+ const sq=S.squash;x.scale(1+.15*sq,1-.18*sq);
+ // corpo
+ x.beginPath();x.moveTo(-40,-110);x.bezierCurveTo(40,-130,70,-40,45,40);x.bezierCurveTo(25,110,-30,170,-95,190);
+ x.bezierCurveTo(-45,140,-35,80,-55,10);x.bezierCurveTo(-75,-50,-90,-95,-40,-110);x.closePath();
+ const g=x.createLinearGradient(-90,0,60,0);g.addColorStop(0,"#c81d10");g.addColorStop(1,"#ff3b22");x.fillStyle=g;x.fill();
+ // brilho
+ x.beginPath();x.moveTo(15,-80);x.bezierCurveTo(40,-50,40,0,25,40);x.lineWidth=12;x.lineCap="round";x.strokeStyle="rgba(255,220,200,.55)";x.stroke();
+ // cabinho
+ x.fillStyle="#3f8a3a";x.beginPath();x.ellipse(-10,-112,48,16,-.15,0,7);x.fill();
+ x.beginPath();x.moveTo(-6,-120);x.quadraticCurveTo(0,-170,35,-180);x.lineWidth=14;x.strokeStyle="#2f6e2b";x.stroke();
+ x.restore();}
+function onda(cx,cy,p,cor,r0){if(!p||p>=1)return;x.beginPath();x.ellipse(cx,cy,r0+520*p,(r0+520*p)*.35,0,0,7);x.lineWidth=14*(1-p);x.strokeStyle=cor.replace("A",1-p);x.stroke();}
+function texto(){const y=850;x.textAlign="center";x.textBaseline="alphabetic";
+ x.font="700 120px V";x.letterSpacing="6px";
+ const wS=x.measureText("SALMO").width,wP=x.measureText("PIMENTA").width;x.font="700 70px V";const we=x.measureText("e").width;
+ const gap=34,tot=wS+we+wP+gap*2,x0=W/2-tot/2;
+ x.shadowColor="rgba(0,0,0,.35)";x.shadowOffsetY=6;x.shadowBlur=0;
+ if(S.t1){x.globalAlpha=cl(S.t1*1.5);x.font="700 120px V";x.fillStyle="#fff7e6";x.fillText("SALMO",x0+wS/2,y+(1-S.t1)*90);}
+ if(S.t2){x.globalAlpha=1;x.save();x.translate(x0+wS+gap+we/2,y-8);x.scale(S.t2,S.t2);x.font="700 70px V";x.fillStyle="#F6B93B";x.fillText("e",0,0);x.restore();}
+ if(S.t3){x.globalAlpha=cl(S.t3*1.5);x.font="700 120px V";x.fillStyle="#FF2A1A";x.fillText("PIMENTA",x0+wS+gap*2+we+wP/2,y+(1-S.t3)*90);}
+ x.shadowColor="transparent";
+ if(S.tag){x.globalAlpha=S.tag;x.font="700 34px V";x.letterSpacing="14px";x.fillStyle="rgba(255,240,215,.8)";x.fillText("HISTÓRIAS DA BÍBLIA",W/2,y+80);
+  x.fillStyle="#F6B93B";const l=260*S.tag;x.fillRect(W/2-l,y+112,l*2,4);}
+ x.globalAlpha=1;x.letterSpacing="0px";}
+function desenhar(){x.setTransform(1,0,0,1,0,0);
+ const g=x.createRadialGradient(W/2,H*.42,0,W/2,H*.42,1150);
+ g.addColorStop(0,`rgb(${lerp(10,74,S.bg)},${lerp(10,52,S.bg)},${lerp(14,58,S.bg)})`);g.addColorStop(1,`rgb(${lerp(5,24,S.bg)},${lerp(5,16,S.bg)},${lerp(8,24,S.bg)})`);
+ x.fillStyle=g;x.fillRect(0,0,W,H);
+ const cx=W/2,cy=410;
+ x.save();const z=1+S.saida*2.2;x.translate(cx,cy);x.scale(z,z);x.translate(-cx,-cy);
+ raios(cx,cy);onda(cx,cy+200,S.onda,"rgba(246,185,59,A)",80);onda(cx,cy+200,S.onda2,"rgba(255,42,26,A)",40);
+ livro(cx,cy);pimenta(cx,cy);texto();x.restore();
+ // poeira no impacto
+ if(S.onda>0&&S.onda<1){for(let i=0;i<26;i++){const a=i/26*Math.PI*2,r=120+S.onda*380;x.fillStyle=`rgba(230,205,160,${.6*(1-S.onda)})`;
+  x.beginPath();x.arc(cx+Math.cos(a)*r*1.4,cy+230+Math.sin(a)*r*.3-S.onda*40*Math.abs(Math.sin(a*3)),6+4*(i%3),0,7);x.fill();}}
+ if(S.brilho){x.fillStyle=`rgba(255,240,210,${.55*S.brilho})`;x.fillRect(0,0,W,H);}
+ if(S.saida){x.fillStyle=`rgba(0,0,0,${S.saida})`;x.fillRect(0,0,W,H);}
+ // vinheta escura nas bordas
+ const v=x.createRadialGradient(W/2,H/2,H*.45,W/2,H/2,H*1.05);v.addColorStop(0,"rgba(0,0,0,0)");v.addColorStop(1,"rgba(0,0,0,.55)");x.fillStyle=v;x.fillRect(0,0,W,H);}
+window.DURATION=DUR;window.seek=t=>{tl.seek(t,false);desenhar();};
+document.fonts.load('700 100px V').then(()=>{seek(0);window.READY=true;});
+</script></body></html>
