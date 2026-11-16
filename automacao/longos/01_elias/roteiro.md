@@ -14,7 +14,7 @@ palavras animadas só nos momentos-chave · **Cores:** fogo e deserto (tensão) 
 ## Capítulos (vão na descrição)
 00:00 O profeta que pediu pra morrer · 00:40 Um rei, uma rainha e um deus falso · 01:50 A seca e os
 corvos · 03:00 Fogo no monte Carmelo · 05:00 A ameaça · 06:00 Debaixo do zimbro · 07:30 A caverna
-e a voz suave · 09:00 Você não está sozinho · 10:00 Oração
+e a voz suave · 09:00 Você não está sozinho · 09:50 Encerramento
 
 ---
 
@@ -109,10 +109,7 @@ Talvez você esteja aí, depois de dar tudo, sem forças, achando que só você 
 falta de fé. Às vezes o próximo passo de Deus para você é comer, dormir e ouvir. Porque a voz dele
 nem sempre vem no fogo. Muitas vezes vem num sussurro.
 
-### [10:00] Oração e encerramento
-Senhor, a gente chega cansado. Alguns de nós chegaram ao limite, como Elias. Cuida do nosso corpo,
-do nosso sono, da nossa mente. Fala com a gente na voz mansa. E lembra a gente que não estamos
-sozinhos. Em nome de Jesus. Amém.
+### [09:50] Encerramento
 Se essa mensagem te tocou, comenta "descanso". E no próximo domingo tem a história dos
 quatrocentos anos de silêncio antes de Jesus nascer. Te espero lá.
 
