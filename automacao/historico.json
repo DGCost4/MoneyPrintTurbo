@@ -153,6 +153,7 @@
     "aprovado": true,
     "publicado": false,
     "agendado_para": "2026-11-22T14:00:00-03:00",
-    "agendamento": "pelo usuário no YouTube Studio (Upload-Post sem uploads no plano)"
+    "agendamento": "agendado pelo usuário no YouTube Studio para 22/11 14h",
+    "agendado": true
   }
 ]
