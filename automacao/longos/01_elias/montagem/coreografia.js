@@ -21,7 +21,7 @@ function coreografia(LJ) {
   legenda("E quem eram os sete mil que ninguém via?", { destaque: ["sete", "mil"] });
   const q5 = T("Essa é a história de Elias");
   cena("thumb", q5 - 0.2, { de: [1.0, 0.5, 0.5], para: [1.12, 0.5, 0.45] });
-  legenda("Essa é a história de Elias. Do fogo… ao deserto.", { destaque: ["fogo", "deserto"], ate: INS.titulo.t });
+  tituloThumb(q5 - 0.1, T("Do fogo… ao deserto"), INS.titulo.t + 0.2);
   // título + vinheta
   cena("c17", INS.titulo.t, { de: [1.3, 0.5, 0.35], para: [1.15, 0.5, 0.4], escuro: 0.3, amb: [["brasas", 960, 900]] });
   titulo(INS.titulo.t, INS.titulo.dur);

@@ -15,6 +15,19 @@ function legenda(frase, { destaque = [], depois, ate } = {}) {
     });
   }, 4);
 }
+// textos da thumbnail sobre a imagem da thumbnail ("BASTA, SENHOR." / linha / "DO FOGO AO DESERTO")
+function tituloThumb(t0, tSub, t1) {
+  sfx(t0, "transicao", 0.3); sfx(tSub, "anjo", 0.25);
+  over(t0, t1, (t) => {
+    const a = env(t, t0, t1, 0.6, 0.4), p = ease.o4(cl((t - t0) / 1.4)), q = ease.o4(cl((t - tSub) / 1.0));
+    x.save(); x.globalAlpha = a;
+    const g = x.createLinearGradient(0, 0, 0, 440); g.addColorStop(0, "rgba(0,0,0,.66)"); g.addColorStop(1, "rgba(0,0,0,0)"); x.fillStyle = g; x.fillRect(0, 0, W, 440);
+    txt("BASTA, SENHOR.", W / 2, 190 + (1 - p) * 18, { tam: 156, esp: lerp(24, 15, p), cor: COR.creme, a: p, sombra: 0.55 });
+    x.fillStyle = COR.vermelho; x.fillRect(W / 2 - 120 * q, 240, 240 * q, 4);
+    txt("DO FOGO AO DESERTO", W / 2, 325, { tam: 57, esp: lerp(20, 13, q), cor: COR.ouro, a: q, sombra: 0.5 });
+    x.restore();
+  }, 5);
+}
 function titulo(t0, dur) {
   const t1 = t0 + dur; sfx(t0, "braam@pico", 0.6); sfx(t0 + 0.1, "fogo_monte", 0.35, { dur: 3.4 });
   over(t0, t1 + 0.3, (t) => {
