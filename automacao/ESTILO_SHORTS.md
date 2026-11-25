@@ -119,6 +119,11 @@ Regras que saíram daí:
 2. **30 a 38 s** (≈ 70 palavras, voz a 1.08). Acima de 40 s a média assistida cai para ~37%.
 3. **Tema = dor real, em pergunta ou contradição** (silêncio de Deus, cansaço, ansiedade, espera, recomeço). É o que mais converte em inscritos.
 4. **Título sem referência bíblica** (a referência vai na tela e na descrição).
+5. **(25/11) Títulos e ganchos: personagem + contradição concreta, nunca o molde "Quando…/Você…?".**
+   Os Shorts com esse molde (9 de 13 seguidos) derrubaram as views; os melhores eram do tipo
+   "O profeta que pediu pra morrer" / "Davi não venceu Golias por coragem". A primeira frase
+   surpreende com um fato (número, nome, inversão); o "você" entra depois, na aplicação.
+   Variar a forma de título a cada Short (fato surpreendente, número, inversão, citação).
 
 ## 7. Imagens pelo Google Flow + Google Drive (desde o lote 3)
 - As imagens dos Shorts são geradas pelo usuário no **Google Flow** (estilo Ukiyo-e com rostos
