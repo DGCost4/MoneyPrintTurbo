@@ -18,9 +18,11 @@ SC.fundo(IMGS, [
   { id: "zacarias_c3", t: t("quando") - 0.3, z: [1.04, 1.12], f: [0.5, 0.45], amb: [["luz", 540, 500]] },
   { id: "zacarias_c4", t: t("filho", 2) - 0.3, z: [1.03, 1.1], f: [0.5, 0.5], amb: [["sol", 760, 420]] },
 ], DURACAO);
+// abertura forte: impacto + zoom no instante 0 (o Short não começa parado nem mudo)
+sfx(0.02, "impacto_pesado", 0.8); sfx(0.02, "braam", 0.35); SC.punch(0.02, 0.06);
 {
-  const l1 = SC.fixo(["400", "ANOS"], 630, COL * 0.7);
-  const l2 = SC.fixo(["DE", "SILÊNCIO"], 810, COL * 0.85); RED(l2[1]);
+  const l1 = SC.fixo(["400", "ANOS"], 630, COL);
+  const l2 = SC.fixo(["DE", "SILÊNCIO"], 810, COL); RED(l2[1]);
   sair([...l1, ...l2], t("quebrou") - 0.3, "cima", { stagger: 0.02 });
   const qb = SC.grande("QUEBROU O SILÊNCIO", a("quebrou"), 720, COL, "medio");
   const na = SC.pops(["COM", "QUEM", "NÃO", "ACREDITOU."], [t("homem") - 0.1, t("homem"), t("nao", 1), t("acreditou", 1)], 880, COL * 0.95); RED(na[3]);

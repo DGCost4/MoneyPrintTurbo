@@ -19,10 +19,13 @@ SC.fundo(IMGS, [
   { id: "pedro_c1", t: t("medo") - 0.3, z: [1.15, 1.22], f: [0.5, 0.45] },
   { id: "pedro_c4", t: t("jesus", 2) - 0.3, z: [1.03, 1.1], f: [0.5, 0.5], amb: [["sol", 540, 380]] },
 ], DURACAO);
+// abertura forte: impacto + zoom no instante 0 (o Short não começa parado nem mudo)
+sfx(0.02, "impacto_pesado", 0.8); sfx(0.02, "braam", 0.35); SC.punch(0.02, 0.06);
 {
-  const l1 = SC.fixo(["PEDRO", "NÃO", "AFUNDOU"], 630, COL * 0.95); RED(l1[2]);
-  const l2 = SC.fixo(["POR", "CAUSA", "DO", "MAR."], 800, COL * 0.85);
-  sair([...l1, ...l2], t("ele", 1) - 0.3, "cima", { stagger: 0.02 });
+  const l1 = SC.fixo(["PEDRO", "NÃO"], 560, COL * 0.85);
+  const l2 = SC.fixo(["AFUNDOU"], 760, COL); RED(...l2);
+  const l3 = SC.fixo(["POR", "CAUSA", "DO", "MAR."], 930, COL);
+  sair([...l1, ...l2, ...l3], t("ele", 1) - 0.3, "cima", { stagger: 0.02 });
   const om = SC.grande("FOI OUTRO MOTIVO.", a("motivo"), 860, COL * 0.9, "medio");
   sair([om], t("ele", 2) - 0.2, "cima", {});
   const an = SC.pops(["ANDOU", "SOBRE", "A ÁGUA."], [t("andou"), t("sobre"), t("agua")], 640, COL * 0.85);

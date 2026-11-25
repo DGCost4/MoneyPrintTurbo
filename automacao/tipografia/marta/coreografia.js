@@ -18,9 +18,11 @@ SC.fundo(IMGS, [
   { id: "marta_c3", t: t("jesus", 3) - 0.3, z: [1.04, 1.12], f: [0.5, 0.5], amb: [["luz", 540, 500]] },
   { id: "marta_c4", t: t("pediu", 2) - 0.3, z: [1.03, 1.1], f: [0.5, 0.55], amb: [["luz", 540, 400]] },
 ], DURACAO);
+// abertura forte: impacto + zoom no instante 0 (o Short não começa parado nem mudo)
+sfx(0.02, "impacto_pesado", 0.8); sfx(0.02, "braam", 0.35); SC.punch(0.02, 0.06);
 {
-  const l1 = SC.fixo(["JESUS", "CORRIGIU"], 620, COL * 0.85);
-  const l2 = SC.fixo(["QUEM", "SERVIA."], 800, COL * 0.7); RED(l2[1]);
+  const l1 = SC.fixo(["JESUS", "CORRIGIU"], 620, COL);
+  const l2 = SC.fixo(["QUEM", "SERVIA."], 800, COL); RED(l2[1]);
   sair([...l1, ...l2], t("ela", 2) - 0.3, "cima", { stagger: 0.02 });
   const tc = SC.grande("TUDO CERTO.", a("certo"), 760, COL * 0.75, "medio");
   const an = SC.grande("ANSIOSA DEMAIS.", a("ansiosa"), 920, COL * 0.9); RED(an);

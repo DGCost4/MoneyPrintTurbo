@@ -18,10 +18,12 @@ SC.fundo(IMGS, [
   { id: "rute_c3", t: t("foi", 1) - 0.3, z: [1.04, 1.12], f: [0.45, 0.55] },
   { id: "rute_c4", t: t("rute", 2) - 0.3, z: [1.03, 1.1], f: [0.5, 0.5], amb: [["sol", 760, 380]] },
 ], DURACAO);
+// abertura forte: impacto + zoom no instante 0 (o Short não começa parado nem mudo)
+sfx(0.02, "impacto_pesado", 0.8); sfx(0.02, "braam", 0.35); SC.punch(0.02, 0.06);
 {
-  const l1 = SC.fixo(["ELA", "CATAVA"], 600, COL * 0.7);
-  const l2 = SC.fixo(["RESTO", "DE", "COMIDA"], 770, COL * 0.9);
-  const l3 = SC.fixo(["NO", "CHÃO."], 940, COL * 0.6); RED(l3[1]);
+  const l1 = SC.fixo(["ELA", "CATAVA"], 600, COL);
+  const l2 = SC.fixo(["RESTO", "DE", "COMIDA"], 770, COL);
+  const l3 = SC.fixo(["NO", "CHÃO."], 940, COL); RED(l3[1]);
   sair([...l1, ...l2, ...l3], t("rute", 1) - 0.3, "cima", { stagger: 0.02 });
   const pe = SC.grande("ELA PERDEU", a("perdido"), 640, COL * 0.7, "medio");
   const pl = [["O MARIDO", "marido", 790], ["A TERRA", "terra", 900], ["O FUTURO", "futuro", 1010]]

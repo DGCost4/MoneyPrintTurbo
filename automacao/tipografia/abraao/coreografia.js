@@ -18,10 +18,13 @@ SC.fundo(IMGS, [
   { id: "abraao_c3", t: t("talvez") - 0.3, z: [1.04, 1.12], f: [0.5, 0.5], amb: [["estrelas"]] },
   { id: "abraao_c4", t: t("isaque") - 0.3, z: [1.03, 1.1], f: [0.5, 0.55], amb: [["sol", 540, 420]] },
 ], DURACAO);
+// abertura forte: impacto + zoom no instante 0 (o Short não começa parado nem mudo)
+sfx(0.02, "impacto_pesado", 0.8); sfx(0.02, "braam", 0.35); SC.punch(0.02, 0.06);
 {
-  const l1 = SC.fixo(["DEUS", "FEZ", "ABRAÃO"], 620, COL * 0.85);
-  const l2 = SC.fixo(["ESPERAR", "25", "ANOS"], 800); RED(l2[1], l2[2]);
-  sair([...l1, ...l2], t("meio") - 0.35, "cima", { stagger: 0.02 });
+  const l1 = SC.fixo(["DEUS", "FEZ", "ABRAÃO"], 580, COL);
+  const l2 = SC.fixo(["ESPERAR"], 760, COL * 0.78);
+  const l3 = SC.fixo(["25", "ANOS"], 980, COL * 0.9); RED(...l3);
+  sair([...l1, ...l2, ...l3], t("meio") - 0.35, "cima", { stagger: 0.02 });
   const me = SC.pops(["NO", "MEIO", "DA", "ESPERA,"], [t("no", 1), t("meio"), t("da", 1), t("espera")], 760, COL * 0.8);
   const er = SC.grande("ELE ERROU.", a("errou"), 920, COL * 0.8); RED(er);
   sair([...me, er], t("cansado") - 0.2, "cima", { stagger: 0.02 });
